@@ -4,6 +4,12 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
+  if(global.window) {
+    var wndAny:any = window;
+    wndAny.HelloWorld = function (stringValue:string, numberValue:number) {
+      alert("kukka " + stringValue + " " + numberValue);
+    }
+  }
   return (
     <div className={styles.container}>
       <Head>
