@@ -1,0 +1,110 @@
+.screen {
+    position: absolute;
+    border-style: solid;
+    border-width: 2px;
+
+    padding: 1%;
+    width: 100%;
+    height: 100%;
+}
+
+.topRow {
+    position: absolute;
+    border-style: solid;
+    border-color: red;
+    border-width: 2px;
+    width: 98%;
+    height: 10%;
+}
+
+.gameArea {
+    position: absolute;
+    border-style: solid;
+    border-color: green;
+    border-width: 2px;
+    width: 98%;
+    height: 70%;
+    top: 12%;
+    text-align: center;
+}
+
+.bottomRow {
+    position: absolute;
+    border-style: solid;
+    border-color: gray;
+    border-width: 2px;
+    width: 98%;
+    height: 16%;
+    top: 82%;
+}
+
+.card1Pos {
+    top: 0%;
+    left: 0%;
+}
+.card2Pos {
+    top: 0%;
+    left: 20%;
+}
+.chamberPos {
+    top: 0%;
+    left: 40%;
+}
+.card3Pos {
+    top: 0%;
+    left: 60%;
+}
+.card4Pos {
+    top: 0%;
+    left: 80%;
+}
+
+.charInfo {
+    position: absolute;
+    border-style: solid;
+    border-color: aqua;
+    border-width: 3px;
+    width: 20%;
+    height: 100%;
+    text-align: center;
+}
+
+.chamberInfo {
+    position: absolute;
+    border-style: solid;
+    border-color: darkblue;
+    width: 20%;
+    height: 100%;
+    text-align: center;
+}
+
+.bottomInfo {
+    position: absolute;
+    border-style: solid;
+    border-color: bisque;
+    border-width: 3px;
+    width: 33.3%;
+    height: 100%;
+    text-align: center;
+}
+
+.bottomMid {
+    position: absolute;
+    border-style: solid;
+    border-color: bisque;
+    border-width: 3px;
+    width: 33.4%;
+    height: 100%;
+    text-align: center;
+}
+
+.bottomInfo1Pos {
+}
+
+.bottomMidPos {
+    left: 33.3%;
+}
+
+.bottomInfo2Pos {
+    left: 66.7%
+}
