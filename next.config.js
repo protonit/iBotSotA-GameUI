@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
-  basePath: '/game-hud',
+  basePath: '/game-ui',
   reactStrictMode: true,
   images: {
     //loader: "custom"
