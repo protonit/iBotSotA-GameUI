@@ -70,6 +70,9 @@
 }
 
 .chamberInfo {
+}
+
+.matchInfo {
     position: absolute;
     border-style: solid;
     border-color: darkblue;
@@ -83,28 +86,7 @@
     border-style: solid;
     border-color: bisque;
     border-width: 3px;
-    width: 33.3%;
     height: 100%;
     text-align: center;
 }
 
-.bottomMid {
-    position: absolute;
-    border-style: solid;
-    border-color: bisque;
-    border-width: 3px;
-    width: 33.4%;
-    height: 100%;
-    text-align: center;
-}
-
-.bottomInfo1Pos {
-}
-
-.bottomMidPos {
-    left: 33.3%;
-}
-
-.bottomInfo2Pos {
-    left: 66.7%
-}
