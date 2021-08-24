@@ -3,26 +3,48 @@ import Head from 'next/head'
 import Image from 'next/image'
 import hudStyles from '../styles/Hud.module.css'
 import React from 'react';
+import ReactDOM from 'react-dom';
 import _ from "lodash";
 import {tSArrayType} from '@babel/types';
 import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
 import moment from 'moment';
+import {any} from 'prop-types';
+import { useEffect } from 'react';
 
 const Home: NextPage = () => {
-  if(global.window) {
-    var wndAny:any = window;
-    wndAny.UpdateUI = function (uiData:UIData) {
-        //ReactDOM.render(<HudUI uiData={uiData} />);
+    let hudRef:any = <HudUI uiData={new UIData()} />;
+    useEffect(() => {
+        let wndAny:any = global.window;
+        wndAny.UpdateUI = function (uiData:UIData) {
+            ReactDOM.render(<HudUI uiData={uiData} />, document.getElementById('__next'));
+        }
+    }, []);
+  return hudRef;
+}
+
+function callout() {
+    if(typeof window !== 'undefined') {
+        var rootElement = document.getElementById('__next');
+        console.log(rootElement);
+        var uiData = new UIData();
+        uiData.MatchData.ChamberCount = 12;
+        uiData.MatchData.CurrentChamber = 4;
+        let wndAny:any = global.window;
+        //ReactDOM.render(wndAny.HudUIInstance, document.getElementById('root'));
+        ReactDOM.render(<HudUI uiData={uiData} />, rootElement);
     }
-  }
-  return (<HudUI uiData={new UIData()} />);
 }
 
 class HudUI extends React.Component<{ readonly uiData:UIData}> {
     constructor(props:any) {
         super(props);
+        if(global.window) {
+            var wndAny:any = window;
+            wndAny.HudUIInstance = this;
+        }
     }
+
     render() {
         const charPosLeftArr = [
             "0%",
@@ -51,7 +73,7 @@ class HudUI extends React.Component<{ readonly uiData:UIData}> {
                     {
                         _.times(4, (i:number) => {
                             const posStyle = charPosLeftArr[i];
-                            return <CharInfo cardPosStyle={{left: posStyle}}><PercentageBar width={87} percentage={this.props.uiData.CharDatas[i].Health}/></CharInfo>;
+                            return <CharInfo key={i} cardPosStyle={{left: posStyle}}><PercentageBar width={87} percentage={this.props.uiData.CharDatas[i].Health}/></CharInfo>;
                         })
                     }
                     <MatchInfo cardPosStyle={{left: "40%"}} matchData={this.props.uiData.MatchData}>Match Data</MatchInfo>
@@ -61,7 +83,7 @@ class HudUI extends React.Component<{ readonly uiData:UIData}> {
                     {
                         _.times(3, (i:number) => {
                             const posStyle = bottomPosStyleArr[i];
-                            return <BottomInfo cardPosStyle={posStyle}>Bottom {i}</BottomInfo>
+                            return <BottomInfo key={i} cardPosStyle={posStyle}>Bottom {i}</BottomInfo>
                         })
                     }
                 </div>
