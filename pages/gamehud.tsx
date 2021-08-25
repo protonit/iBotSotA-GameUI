@@ -91,7 +91,7 @@ class HudUI extends React.Component<{ readonly uiData:UIData}> {
                     </div>
                     <div className={hudStyles.gameArea}></div>
                     <div className={hudStyles.bottomRow}>
-                        <BottomInfo cardPosStyle={bottomPosStyleArr[2]}>Acc: 35%<br/>HS: 15%<br/>Total Acc: 34%<br/>Total HS: 17%</BottomInfo>
+                        <BottomInfo cardPosStyle={bottomPosStyleArr[2]}>Chamber Acc: 35%<br/>Chamber HS: 15%<br/>Match Acc: 34%<br/>Match HS: 17%</BottomInfo>
                     </div>
                 </div>
             </div>
