@@ -19,6 +19,7 @@
     width: 100%;
     height: 100%;
     /*background-color: black;*/
+    opacity: 100%;
     color: greenyellow;
 }
 
@@ -58,77 +59,6 @@
     top: 82%;
 }
 
-.card1Pos {
-    top: 0%;
-    left: 0%;
-}
-.card2Pos {
-    top: 0%;
-    left: 20%;
-}
-.chamberPos {
-    top: 0%;
-    left: 40%;
-}
-.card3Pos {
-    top: 0%;
-    left: 60%;
-}
-.card4Pos {
-    top: 0%;
-    left: 80%;
-}
-
-.charInfo {
-    position: absolute;
-    /*border-style: solid;
-    border-color: aqua;
-    border-width: 3px;*/
-    width: 20%;
-    height: 100%;
-    text-align: center;
-    font-size: xx-large;
-    font-family: Expletus Sans;
-    font-weight: bolder;
-}
-
-.chamberInfo {
-}
-
-.percentageBar {
-    font-size: xx-large;
-    font-family: Expletus Sans;
-    font-weight: bolder !important;
-    color: greenyellow !important;
-}
-
-.matchInfo {
-    position: absolute;
-
-    /*
-    border-style: solid;
-    border-color: darkblue;
-    */
-    width: 20%;
-    height: 100%;
-    text-align: center;
-    font-size: xx-large;
-    font-family: Expletus Sans;
-    font-weight: bolder;
-}
-
-.bottomInfo {
-    position: absolute;
-    /*border-style: solid;
-    border-color: bisque;
-    border-width: 3px;*/
-    height: 100%;
-    text-align: right;
-    font-size: xx-large;
-    font-family: Expletus Sans;
-    font-weight: bolder;
-}
-
 .menuPanel {
     position: absolute;
     height: 100%;
@@ -144,4 +74,25 @@
     border-width: 3px;
     /**/
 
+}
+
+.menuButtonLabel {
+    text-transform: capitalize;
+    font-family: "Expletus Sans";
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.menuButtonRoot {
+    background: linear-gradient(45deg, #6be3fe 30%, #73ff53 90%);
+    borderRadius: 3;
+    border: 0;
+    color: white;
+    height: 48px;
+    padding:  0 30px;
+    boxShadow: 0 3px 5px 2px rgba(255, 105, 135, .3);
+}
+
+.menuButtonRoot:hover {
+    background: linear-gradient(135deg, #6be3fe 30%, #73ff53 90%);
 }
