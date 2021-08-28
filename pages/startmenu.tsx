@@ -19,13 +19,17 @@ import { Button } from '@material-ui/core';
 import {red} from '@material-ui/core/colors';
 
 
-const Home: NextPage = () => {
+function SetupCallFunctions() {
     useEffect(() => {
         let wndAny:any = global.window;
         wndAny.UpdateStartMenu = function (menuData:StartMenuData) {
             ReactDOM.render(<StartMenu MenuData={menuData} />, document.getElementById('__next'));
         }
     }, []);
+}
+
+const Home: NextPage = () => {
+    SetupCallFunctions();
     return (<StartMenu MenuData={new StartMenuData()} />);
 }
 
@@ -126,6 +130,13 @@ class GraphPanel extends React.Component<{posStyle:any}>
     }
 }
 
+function OnStartClick() {
+    if(global.window) {
+        let wndAny:any = global.window;
+        wndAny.OnStartClick();
+    }
+}
+
 class MenuButtons extends React.Component<{ posStyle:any }>
 {
     constructor(props:any) {
@@ -135,7 +146,7 @@ class MenuButtons extends React.Component<{ posStyle:any }>
 
     render() {
         return (<div style={this.props.posStyle} className={styles.menuPanel}>{this.props.children}
-            <Button color={'primary'} classes={{label: styles.menuButtonLabel, root: styles.menuButtonRoot }}>Button</Button>
+            <Button color={'primary'} classes={{label: styles.menuButtonLabel, root: styles.menuButtonRoot }} onClick={OnStartClick}>Button</Button>
         </div> );
     }
 
