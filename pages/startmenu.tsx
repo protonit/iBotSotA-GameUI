@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Menu.module.css'
-import React from 'react';
+import React, {useRef} from 'react';
 import ReactDOM from 'react-dom';
 import _ from "lodash";
 import {tSArrayType} from '@babel/types';
@@ -18,7 +18,7 @@ import { scaleLinear, scaleBand } from '@visx/scale';
 import { Button } from '@material-ui/core';
 import {red} from '@material-ui/core/colors';
 import common from '../common/commonImports';
-import SettingsDialog from '../components/settings/settingsDialog';
+import { SettingsDialog  } from '../components/settings/settingsDialog';
 
 function SetupCallFunctions() {
     useEffect(() => {
@@ -140,22 +140,43 @@ function OnStartClick() {
         setTimeout(wndAny.OnStartClick, 1000);
     }
 }
-
-class MenuButtons extends React.Component<{ posStyle:any }>
-{
-    constructor(props:any) {
-        super(props);
-
+function OnSettingsClick() {
+    if(global.window) {
     }
+}
 
-    render() {
-        return (<div style={this.props.posStyle} className={styles.menuPanel}>{this.props.children}
-            <Button color={'primary'} classes={{label: styles.menuButtonLabel, root: styles.menuButtonRoot }} onClick={OnStartClick}>Button</Button>
-            <SettingsDialog open={true} />
-        </div> );
-    }
+function MenuButtons(props:any) {
+    const [open, setOpen] = React.useState(false);
+    const [selectedValue, setSelectedValue] = React.useState(0);
+
+    
+    const onSettingsClick = () => {
+        let playAudio = new Audio(common.clickOpenAudio);
+        playAudio.play();
+        setTimeout(() => {
+            setOpen(true);
+        }, 100);
+    };
+    
+    const handleClose = (value:any) => {
+        let playAudio = new Audio(common.clickCloseAudio);
+        playAudio.play();
+        setTimeout(() => {
+            setOpen(false);
+        }, 100);
+        setSelectedValue(value);
+    };
+    
+    return (<div style={props.posStyle} className={styles.menuPanel}>
+        <Button color={'primary'} classes={{label: styles.menuButtonLabel, root: styles.menuButtonRoot }} onClick={onSettingsClick}>Settings</Button>
+        <br/>
+        <Button color={'primary'} classes={{label: styles.menuButtonLabel, root: styles.menuButtonRoot }} onClick={OnStartClick}>Start</Button>
+        <SettingsDialog open={open} onClose={handleClose} selectedValue={null} />
+    </div> );
 
 }
+
+
 
 class StartMenuData
 {
