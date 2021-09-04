@@ -267,6 +267,11 @@
   "resolved" "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.0.6.tgz"
   "version" "1.0.6"
 
+"@theball/appgen@^1.0.10":
+  "integrity" "sha1-LK/tlFnnBISR5kG2lqVm8aaRNyI="
+  "resolved" "https://registry.npmjs.org/@theball/appgen/-/appgen-1.0.10.tgz"
+  "version" "1.0.10"
+
 "@types/d3-color@^1":
   "integrity" "sha512-fYtiVLBYy7VQX+Kx7wU/uOIkGQn8aAEY8oWMoyja3N4dLd8Yf6XgSIR/4yWvMuveNOH5VShnqCgRqqh/UNanBA=="
   "resolved" "https://registry.npmjs.org/@types/d3-color/-/d3-color-1.4.2.tgz"

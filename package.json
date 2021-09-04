@@ -25,6 +25,7 @@
     "sharp": "^0.29.0"
   },
   "devDependencies": {
+    "@theball/appgen": "^1.0.10",
     "@types/lodash": "^4.14.172",
     "@types/react": "17.0.19",
     "@types/react-dom": "^17.0.9",

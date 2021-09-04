@@ -17,17 +17,8 @@ import { Bar } from '@visx/shape';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { Button } from '@material-ui/core';
 import {red} from '@material-ui/core/colors';
-//import clickAudio from '../audio/Close Your Eyes.mp3'
-//import clickAudio from '../audio/Data 03.mp3'
-//import clickAudio from '../audio/Data 08.mp3'
-//import clickAudio from '../audio/Digital Click 10.mp3'
-//import clickAudio from '../audio/Digital Click 12.mp3'
-//import clickAudio from '../audio/Digital Click 13.mp3'
-//import clickAudio from '../audio/Door 3 Open.mp3'
-//import clickAudio from '../audio/Door 3 Close 2.mp3'
-//import clickAudio from '../audio/Door 6 Open.mp3'
-import clickAudio from '../audio/Door 6 Close.mp3'
-
+import common from '../common/commonImports';
+import SettingsDialog from '../components/settings/settingsDialog';
 
 function SetupCallFunctions() {
     useEffect(() => {
@@ -143,7 +134,7 @@ class GraphPanel extends React.Component<{posStyle:any}>
 function OnStartClick() {
     if(global.window) {
         let wndAny:any = global.window;
-        let playAudio = new Audio(clickAudio);
+        let playAudio = new Audio(common.clickOpenAudio);
         //clickAudio.play();
         playAudio.play();
         setTimeout(wndAny.OnStartClick, 1000);
@@ -160,6 +151,7 @@ class MenuButtons extends React.Component<{ posStyle:any }>
     render() {
         return (<div style={this.props.posStyle} className={styles.menuPanel}>{this.props.children}
             <Button color={'primary'} classes={{label: styles.menuButtonLabel, root: styles.menuButtonRoot }} onClick={OnStartClick}>Button</Button>
+            <SettingsDialog open={true} />
         </div> );
     }
 
