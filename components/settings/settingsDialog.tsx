@@ -11,11 +11,14 @@ import moment from 'moment';
 import {any} from 'prop-types';
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Button, 
+import {
+    Button,
     Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText,
     FormControl,
-    AppBar, Tabs, Tab, Box, Typography } from '@material-ui/core';
+    AppBar, Tabs, Tab, Box, Typography, Slider, Grid, Input
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import {VolumeDown, VolumeUp} from "@material-ui/icons";
 
 function TabPanel(props:any) {
     const { children, value, index, ...other } = props;
@@ -50,21 +53,51 @@ function a11yProps(index:any) {
     };
 }
 
-const useTabStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
-    },
-}));
+
 
 function SettingsTabs() {
+    const useTabStyles = makeStyles((theme) => ({
+        root: {
+            flexGrow: 1,
+            backgroundColor: theme.palette.background.paper,
+        },
+    }));
+
+    const useSliderStyles = makeStyles({
+        root: {
+            width: 100,
+        },
+        input: {
+            width: 42,
+        },
+    });
+
     const classes = useTabStyles();
+    const sliderClasses = useSliderStyles();
     const [value, setValue] = React.useState(0);
+
+    const [volume, setVolume] = React.useState(30);
 
     const handleChange = (event:any, newValue:any) => {
         setValue(newValue);
     };
 
+    const handleVolumeSliderChange = (event:any, newValue:any) => {
+        setVolume(newValue);
+    };
+
+    const handleVolumeInputChange = (event:any) => {
+        setVolume(event.target.volume === '' ? 0 : Number(event.target.volume));
+    };
+
+    const handleVolumeBlur = () => {
+        if (volume < 0) {
+            setVolume(0);
+        } else if (volume > 100) {
+            setVolume(100);
+        }
+    };    
+    
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -79,6 +112,39 @@ function SettingsTabs() {
             </TabPanel>
             <TabPanel value={value} index={1}>
                 Audio Settings
+                <div className={classes.root}>
+                    <Typography id="continuous-slider" gutterBottom>
+                        Volume
+                    </Typography>
+                    <Grid container spacing={2} alignItems="center">
+                        <Grid item>
+                            <VolumeUp />
+                        </Grid>
+                        <Grid item xs>
+                            <Slider
+                                value={typeof volume === 'number' ? volume : 0}
+                                onChange={handleVolumeSliderChange}
+                                aria-labelledby="input-slider"
+                            />                        
+                        </Grid>
+                    </Grid>
+                    <Grid item>
+                        <Input
+                            className={sliderClasses.input}
+                            value={volume}
+                            margin="dense"
+                            onChange={handleVolumeInputChange}
+                            onBlur={handleVolumeBlur}
+                            inputProps={{
+                                step: 1,
+                                min: 0,
+                                max: 100,
+                                type: 'number',
+                                'aria-labelledby': 'input-slider',
+                            }}
+                        />
+                    </Grid>
+                </div>
             </TabPanel>
             <TabPanel value={value} index={2}>
                 Controls Settings
@@ -131,9 +197,6 @@ function SettingsDialog(props:any) {
                 aria-labelledby="max-width-dialog-title">
                 <DialogTitle id="max-width-dialog-title">Settings</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
-                        You can set my maximum width and whether to adapt or not.
-                    </DialogContentText>
                     <SettingsTabs />
                 </DialogContent>
                 <DialogActions>
