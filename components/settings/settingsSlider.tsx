@@ -7,7 +7,7 @@ export function SettingsSlider(props: any) {
     const { label, icon, initialValue, handleChange } = props;
     const useStyles = makeStyles({
         root: {
-            width: 200,
+            width: "100%",
         },
         input: {
             width: 42,
@@ -27,47 +27,57 @@ export function SettingsSlider(props: any) {
         handleChange(event, label, val);
     };
 
+    const step = props?.step ?? 1;
+    const min = props?.min ?? 0;
+    const max = props?.max ?? 100;
+    
     const handleBlur = () => {
-        if (value < 0) {
-            setValue(0);
-        } else if (value > 100) {
-            setValue(100);
+        if (value < min) {
+            setValue(min);
+        } else if (value > max) {
+            setValue(max);
         }
     };
 
 
     return (
         <div className={classes.root}>
-            <Typography id="continuous-slider" gutterBottom>
-                {label}
-            </Typography>
             <Grid container spacing={2} alignItems="center">
+                <Grid item>
+                    <Typography id="continuous-slider" gutterBottom>
+                        {label}
+                    </Typography>
+                </Grid>
                 <Grid item>
                     {icon}
                 </Grid>
                 <Grid item xs>
                     <Slider
                         value={typeof value === 'number' ? value : 0}
+                        step={step}
+                        min={min}
+                        max={max}
                         onChange={handleSliderChange}
                         aria-labelledby="input-slider"
+                        valueLabelDisplay="auto"
                     />
                 </Grid>
-            </Grid>
-            <Grid item>
-                <Input
-                    className={classes.input}
-                    value={value}
-                    margin="dense"
-                    onChange={handleInputChange}
-                    onBlur={handleBlur}
-                    inputProps={{
-                        step: 1,
-                        min: 0,
-                        max: 100,
-                        type: 'number',
-                        'aria-labelledby': 'input-slider',
-                    }}
-                />
+                <Grid item>
+                    <Input
+                        className={classes.input}
+                        value={value}
+                        margin="dense"
+                        onChange={handleInputChange}
+                        onBlur={handleBlur}
+                        inputProps={{
+                            step: step,
+                            min: min,
+                            max: max,
+                            type: 'number',
+                            'aria-labelledby': 'input-slider',
+                        }}
+                    />
+                </Grid>
             </Grid>
         </div>
 
@@ -75,8 +85,11 @@ export function SettingsSlider(props: any) {
 }
 
 SettingsSlider.propTypes = {
+    step: PropTypes.number,
+    min: PropTypes.number,
+    max: PropTypes.number,
     icon: PropTypes.node,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.any.isRequired,
     initialValue: PropTypes.any.isRequired,
     handleChange: PropTypes.any.isRequired,
 };

@@ -73,8 +73,7 @@ export function SettingsTabs() {
                 Video Settings
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Audio Settings
-                <SettingsSlider label="Volume" icon={<VolumeUp/>} initialValue={20} handleChange={handleSettingChange}/>
+                <SettingsSlider label={["Master", <br/>, "Volume"]} icon={<VolumeUp/>} initialValue={20} step={0.4} min={10} max={110} handleChange={handleSettingChange}/>
             </TabPanel>
             <TabPanel value={value} index={2}>
                 Controls Settings
