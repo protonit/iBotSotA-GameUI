@@ -23,6 +23,7 @@ function SettingsDialog(props:any) {
         },
     }));
     const classes = useStyles();
+    let data = props.data;
 
     const { onClose, selectedValue, open } = props;
     //const classes = useDialogStyles();
@@ -51,7 +52,7 @@ function SettingsDialog(props:any) {
                 aria-labelledby="max-width-dialog-title">
                 <DialogTitle id="max-width-dialog-title">Settings</DialogTitle>
                 <DialogContent>
-                    <SettingsTabs />
+                    <SettingsTabs data={props.data} />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
@@ -69,6 +70,7 @@ SettingsDialog.propTypes = {
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
     selectedValue: PropTypes.any.isRequired,
+    data: PropTypes.any.isRequired,
 };
 
 export {

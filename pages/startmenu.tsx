@@ -167,11 +167,35 @@ function MenuButtons(props:any) {
         setSelectedValue(value);
     };
     
+    let data = {
+        Video: [
+            {
+                Name: "FPS Cap",
+                Type: "number",
+                Value: 66,
+            }
+        ],
+        Audio: [
+            {
+                Name: "Master Volume",
+                Type: "number",
+                Value: 11,
+            },
+            {
+                Name: "Music Volume",
+                Type: "number",
+                Value: 22,
+            }
+        ],
+        Controls: [
+            
+        ],
+    };
     return (<div style={props.posStyle} className={styles.menuPanel}>
         <Button color={'primary'} classes={{label: styles.menuButtonLabel, root: styles.menuButtonRoot }} onClick={onSettingsClick}>Settings</Button>
         <br/>
         <Button color={'primary'} classes={{label: styles.menuButtonLabel, root: styles.menuButtonRoot }} onClick={OnStartClick}>Start</Button>
-        <SettingsDialog open={open} onClose={handleClose} selectedValue={null} />
+        <SettingsDialog open={open} onClose={handleClose} selectedValue={null} data={data} />
     </div> );
 
 }
