@@ -4,7 +4,7 @@ import {Grid, Input, Slider, Typography} from "@material-ui/core";
 import PropTypes from "prop-types";
 
 export function SettingsSlider(props: any) {
-    const { label, icon, initialValue, handleChange } = props;
+    const { nameSpace, name, label, icon, initialValue, handleChange } = props;
     const useStyles = makeStyles({
         root: {
             width: "100%",
@@ -18,13 +18,13 @@ export function SettingsSlider(props: any) {
 
     const handleSliderChange = (event: any, newValue: any) => {
         setValue(newValue);
-        handleChange(event, label, newValue);
+        handleChange(event, nameSpace, name, newValue);
     };
 
     const handleInputChange = (event: any) => {
         let val = event.target.value === '' ? 0 : Number(event.target.value);
         setValue(val);
-        handleChange(event, label, val);
+        handleChange(event, nameSpace, name, val);
     };
 
     const step = props?.step ?? 1;
@@ -89,7 +89,9 @@ SettingsSlider.propTypes = {
     min: PropTypes.number,
     max: PropTypes.number,
     icon: PropTypes.node,
+    nameSpace: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     label: PropTypes.any.isRequired,
     initialValue: PropTypes.any.isRequired,
-    handleChange: PropTypes.any.isRequired,
+    handleChange: PropTypes.func.isRequired
 };

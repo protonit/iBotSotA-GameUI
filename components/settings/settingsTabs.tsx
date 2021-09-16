@@ -5,6 +5,7 @@ import {SettingsSlider} from "./settingsSlider";
 import {VolumeUp} from "@material-ui/icons";
 import PropTypes from "prop-types";
 import {SettingsDialog} from "./settingsDialog";
+import _ from "lodash";
 
 function TabPanel(props:any) {
     const { children, value, index, ...other } = props;
@@ -56,9 +57,11 @@ export function SettingsTabs(props:any) {
         setTabValue(newValue);
     };
 
-    const handleSettingChange = (event: any, label:string, newValue:any) => {
-        //alert("new value: " + newValue);
-        console.log(label + ": " + event + " " + newValue);
+    const handleSettingChange = (event: any, nameSpace:string, name:string, value:any) => {
+        let settingType:Array<any> = data[nameSpace];
+        let setting = settingType.find(item => item.name == name);
+        if(setting)
+            setting.value = value;
     }
     let keys = Object.keys(data);
     let tabs = keys.map((value, index, array) => <Tab label={value} {...a11yProps({index})} />); 
@@ -69,13 +72,16 @@ export function SettingsTabs(props:any) {
     let tabPanels = keys.map((tabItem, tabIx, array) => {
         let settingsArr:Array<any> = values[tabIx] as Array<any>;
         let tabs = settingsArr.map((settingItem, settingIx, settingArray) => {
-            let settingName = settingItem.Name;
-            let settingValue = settingItem.Value;
-            let settingLabelParts:Array<string> = settingName.split(" ");
-            switch(settingItem.Type) {
+            let settingName = settingItem.name;
+            let settingValue = settingItem.value;
+            let settingLabel = settingItem.label ?? _.startCase(settingName);
+            settingLabel = settingLabel.replace(" ", "|<br/>|");
+            let nameSpace = tabItem;
+            let settingLabelParts:Array<string> = settingLabel.split("|").map((labelValue:string) => labelValue == "<br/>" ? <br/> : labelValue);
+            switch(settingItem.type) {
                 case "number":
                     return (
-                        <SettingsSlider label={settingLabelParts} icon={<VolumeUp/>} initialValue={settingValue} step={0.4} min={10} max={110} handleChange={handleSettingChange}/>
+                        <SettingsSlider nameSpace={nameSpace} name={settingName} label={settingLabelParts} icon={<VolumeUp/>} initialValue={settingValue} step={0.4} min={10} max={110} handleChange={handleSettingChange}/>
                     );
             } 
         });
@@ -100,4 +106,5 @@ export function SettingsTabs(props:any) {
 
 SettingsTabs.propTypes = {
     data: PropTypes.any.isRequired,
+    handleChange: PropTypes.func,
 };

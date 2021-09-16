@@ -42,6 +42,11 @@ function SettingsDialog(props:any) {
     const handleFullWidthChange = (event:any) => {
         setFullWidth(event.target.checked);
     };
+    
+    const handleChange = () => {
+        let currData = JSON.stringify(data);
+        console.log(currData);
+    }
 
     return (
             <Dialog className={classes.form}
@@ -52,7 +57,7 @@ function SettingsDialog(props:any) {
                 aria-labelledby="max-width-dialog-title">
                 <DialogTitle id="max-width-dialog-title">Settings</DialogTitle>
                 <DialogContent>
-                    <SettingsTabs data={props.data} />
+                    <SettingsTabs data={data} handleChange={handleChange} />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">

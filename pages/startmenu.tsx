@@ -67,6 +67,7 @@ class StartMenu extends React.Component<{MenuData:StartMenuData}>
 
 class GraphPanel extends React.Component<{posStyle:any}>
 {
+    
     constructor(props:any) {
         super(props);
     }
@@ -149,6 +150,34 @@ function MenuButtons(props:any) {
     const [open, setOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = React.useState(0);
 
+    //let wndAny:any = global.window;
+    //let data = wndAny.SettingData;
+
+    let data = {
+        video: [
+            {
+                name: "FpsCap",
+                type: "number",
+                value: 66,
+            }
+        ],
+        audio: [
+            {
+                name: "MasterVolume",
+                type: "number",
+                value: 11,
+            },
+            {
+                name: "MusicVolume",
+                type: "number",
+                value: 22,
+            }
+        ],
+        controls: [
+
+        ],
+    };
+    
     
     const onSettingsClick = () => {
         let playAudio = new Audio(common.clickOpenAudio);
@@ -167,35 +196,11 @@ function MenuButtons(props:any) {
         setSelectedValue(value);
     };
     
-    let data = {
-        Video: [
-            {
-                Name: "FPS Cap",
-                Type: "number",
-                Value: 66,
-            }
-        ],
-        Audio: [
-            {
-                Name: "Master Volume",
-                Type: "number",
-                Value: 11,
-            },
-            {
-                Name: "Music Volume",
-                Type: "number",
-                Value: 22,
-            }
-        ],
-        Controls: [
-            
-        ],
-    };
     return (<div style={props.posStyle} className={styles.menuPanel}>
         <Button color={'primary'} classes={{label: styles.menuButtonLabel, root: styles.menuButtonRoot }} onClick={onSettingsClick}>Settings</Button>
         <br/>
         <Button color={'primary'} classes={{label: styles.menuButtonLabel, root: styles.menuButtonRoot }} onClick={OnStartClick}>Start</Button>
-        <SettingsDialog open={open} onClose={handleClose} selectedValue={null} data={data} />
+        <SettingsDialog open={open} onClose={handleClose} selectedValue={1} data={data} />
     </div> );
 
 }
