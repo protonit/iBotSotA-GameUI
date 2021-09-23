@@ -1,6 +1,7 @@
 ﻿import {SettingsSlider} from "./settingsSlider";
 import React from "react";
 import {TabPanel} from "./settingsTabs";
+import PropTypes from "prop-types";
 
 
 export class TabData 
@@ -48,19 +49,25 @@ export function VideoSettingsTab(props:any) {
 
 
 export function AudioSettingsTab(props:any) {
-    let handleChange = function() {
-
-    };
+    let tabIx = props.tabIx;
+    let tabValue = props.tabValue;
+    let handleChange = props.handleSettingChange;
+    let data = props.audioData;
     let tabs = [
-        <SettingsSlider nameSpace="AudioSettingsTab" name="MasterVolume" label={[ "MasterVolume", <br/>, "AudioSettingsTab"]} initialValue={0} handleChange={handleChange} />,
-        <SettingsSlider nameSpace="AudioSettingsTab" name="MusicVolume" label={[ "MusicVolume", <br/>, "AudioSettingsTab"]} initialValue={0} handleChange={handleChange} />
+        <SettingsSlider nameSpace="audio" name="MasterVolume" label={[ "MasterVolume", <br/>, "AudioSettingsTab"]} initialValue={data.MasterVolume.value} handleChange={handleChange} />,
+        <SettingsSlider nameSpace="audio" name="MusicVolume" label={[ "MusicVolume", <br/>, "AudioSettingsTab"]} initialValue={data.MusicVolume.value} handleChange={handleChange} />
     ]
-    let tabIx = 0;
-    let tabValue = "";
     return (<TabPanel value={tabValue} index={tabIx}>
         {tabs}
     </TabPanel>);
 }
+
+AudioSettingsTab.propTypes = {
+    tabIx: PropTypes.number.isRequired,
+    tabValue: PropTypes.number.isRequired,
+    handleSettingChange: PropTypes.func.isRequired, 
+    audioData: PropTypes.any.isRequired,
+} 
 
 
 export function ControlsSettingsTab(props:any) {

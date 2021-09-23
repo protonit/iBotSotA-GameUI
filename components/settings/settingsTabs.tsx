@@ -59,10 +59,22 @@ export function SettingsTabs(props:any) {
     };
 
     const handleSettingChange = (event: any, nameSpace:string, name:string, value:any) => {
+        /*
         let settingType:Array<any> = data[nameSpace];
         let setting = settingType.find(item => item.name == name);
-        if(setting)
+        if(setting) {
             setting.value = value;
+            console.log("Setting: " + nameSpace + "." + name + " to: " + value);
+        } else
+            console.log("Cannot find setting: " + nameSpace + "." + name);
+         */
+        let settingType = data[nameSpace];
+        let setting = settingType[name];
+        if(setting) {
+            setting.value = value;
+            //console.log("Setting: " + nameSpace + "." + name + " to: " + value);
+        } else
+            console.log("Cannot find setting: " + nameSpace + "." + name);
     }
     let keys = Object.keys(data);
     let tabs = keys.map((value, index, array) => <Tab label={value} {...a11yProps({index})} />); 
@@ -70,31 +82,20 @@ export function SettingsTabs(props:any) {
     let values = Object.values(data);
     //var Object.values()
     
-    let tabPanels = keys.map((tabItem, tabIx, array) => {
-        let settingsArr:Array<any> = values[tabIx] as Array<any>;
-        let tabs = settingsArr.map((settingItem, settingIx, settingArray) => {
-            let settingName = settingItem.name;
-            let settingValue = settingItem.value;
-            let settingLabel = settingItem.label ?? _.startCase(settingName);
-            settingLabel = settingLabel.replace(" ", "|<br/>|");
-            let nameSpace = tabItem;
-            let settingLabelParts:Array<string> = settingLabel.split("|").map((labelValue:string) => labelValue == "<br/>" ? <br/> : labelValue);
-            switch(settingItem.type) {
-                case "number":
-                    return (
-                        <SettingsSlider nameSpace={nameSpace} name={settingName} label={settingLabelParts} icon={<VolumeUp/>} initialValue={settingValue} step={0.4} min={10} max={110} handleChange={handleSettingChange}/>
-                    );
-            } 
-        });
-        
-        return(
-            <TabPanel value={tabValue} index={tabIx}>
-                {tabs}
-            </TabPanel>);
-    });
-    tabPanels.push(<VideoSettingsTab />)
-    tabPanels.push(<AudioSettingsTab />)
-    tabPanels.push(<ControlsSettingsTab />)
+    let tabIx = 0;
+    let tabPanels = [];
+    tabPanels.push(
+        <TabPanel index={tabIx++} value={tabValue}>
+            <VideoSettingsTab />
+        </TabPanel>);
+    tabPanels.push(
+            <AudioSettingsTab tabIx={tabIx++} tabValue={tabValue} handleSettingChange={handleSettingChange} audioData={data.audio} />
+    );
+    tabPanels.push(
+        <TabPanel index={tabIx++} value={tabValue}>
+            <ControlsSettingsTab />
+        </TabPanel>
+    );
 
 
     return (

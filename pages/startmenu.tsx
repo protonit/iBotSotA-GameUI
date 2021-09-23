@@ -161,6 +161,18 @@ function MenuButtons(props:any) {
                 value: 66,
             }
         ],
+        audio: {
+            "MasterVolume": {
+                "type": "number",
+                "value": 13
+            },
+            "MusicVolume": {
+                "type": "number",
+                "value": 34
+            },
+
+        },
+        /*
         audio: [
             {
                 name: "MasterVolume",
@@ -172,7 +184,7 @@ function MenuButtons(props:any) {
                 type: "number",
                 value: 22,
             }
-        ],
+        ],*/
         controls: [
 
         ],
