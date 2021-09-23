@@ -19,6 +19,8 @@ import { Button } from '@material-ui/core';
 import {red} from '@material-ui/core/colors';
 import common from '../common/commonImports';
 import { SettingsDialog  } from '../components/settings/settingsDialog';
+import {TabData} from "../components/settings/InterfaceGen";
+import {type} from "os";
 
 function SetupCallFunctions() {
     useEffect(() => {
@@ -153,19 +155,11 @@ function MenuButtons(props:any) {
     //let wndAny:any = global.window;
     //let data = wndAny.SettingData;
 
-    let data = {
-        video: {
-            "FpsCap": 66,
-        },
-        audio: {
-            "MasterVolume": 13,
-            "MusicVolume": 34,
-        },
-        control: {
-            "Sensitivity": 7.0
-        },
-    };
-    
+    let typedData : TabData = new TabData();
+    typedData.video.FpsCap = 66;
+    typedData.audio.MasterVolume = 13;
+    typedData.audio.MusicVolume = 55;
+    typedData.control.Sensitivity = 7.0;
     
     const onSettingsClick = () => {
         let playAudio = new Audio(common.clickOpenAudio);
@@ -188,7 +182,7 @@ function MenuButtons(props:any) {
         <Button color={'primary'} classes={{label: styles.menuButtonLabel, root: styles.menuButtonRoot }} onClick={onSettingsClick}>Settings</Button>
         <br/>
         <Button color={'primary'} classes={{label: styles.menuButtonLabel, root: styles.menuButtonRoot }} onClick={OnStartClick}>Start</Button>
-        <SettingsDialog open={open} onClose={handleClose} selectedValue={1} data={data} />
+        <SettingsDialog open={open} onClose={handleClose} selectedValue={1} data={typedData} />
     </div> );
 
 }
