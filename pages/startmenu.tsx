@@ -154,40 +154,16 @@ function MenuButtons(props:any) {
     //let data = wndAny.SettingData;
 
     let data = {
-        video: [
-            {
-                name: "FpsCap",
-                type: "number",
-                value: 66,
-            }
-        ],
-        audio: {
-            "MasterVolume": {
-                "type": "number",
-                "value": 13
-            },
-            "MusicVolume": {
-                "type": "number",
-                "value": 34
-            },
-
+        video: {
+            "FpsCap": 66,
         },
-        /*
-        audio: [
-            {
-                name: "MasterVolume",
-                type: "number",
-                value: 11,
-            },
-            {
-                name: "MusicVolume",
-                type: "number",
-                value: 22,
-            }
-        ],*/
-        controls: [
-
-        ],
+        audio: {
+            "MasterVolume": 13,
+            "MusicVolume": 34,
+        },
+        control: {
+            "Sensitivity": 7.0
+        },
     };
     
     

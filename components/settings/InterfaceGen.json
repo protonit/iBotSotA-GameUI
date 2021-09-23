@@ -6,7 +6,8 @@
         {
           "name": "FpsCap",
           "type": "number",
-          "value": 66
+          "value": 66,
+          "iconName": "AspectRatio"
         }
       ]
     },
@@ -16,18 +17,26 @@
         {
           "name": "MasterVolume",
           "type": "number",
-          "value": 11
+          "value": 11,
+          "iconName": "VolumeUp"
         },
         {
           "name": "MusicVolume",
           "type": "number",
-          "value": 22
+          "value": 22,
+          "iconName": "VolumeUp"
         }
       ]
     },
     {
-      "tabName": "controls",
+      "tabName": "control",
       "data": [
+        {
+          "name": "Sensitivity",
+          "type": "number",
+          "value": 7.0,
+          "iconName": "Mouse"
+        }
         
       ]
     }

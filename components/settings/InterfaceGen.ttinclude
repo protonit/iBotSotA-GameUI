@@ -29,6 +29,10 @@
     {
         public string name;
         public string type;
+        public string iconName;
+        public double step = 1;
+        public double min = 0;
+        public double max = 100;
         public double? NumericValue;
         public string StringValue;
         public DateTime? DateTimeValue;

@@ -11,7 +11,17 @@
 
 <#
     var jsonData = JsonData.ReadJsonData();
+    var iconImports =
+        jsonData.tabs.SelectMany(tab => tab.data).Select(item => item.iconName).Distinct().OrderBy(item => item)
+            .ToArray();
+    var iconImportList = String.Join(", ", iconImports);
 #>
+
+import {SettingsSlider} from "./settingsSlider";
+import React from "react";
+import {TabPanel} from "./settingsTabs";
+import PropTypes from "prop-types";
+import {<#= iconImportList #>} from "@material-ui/icons";
 
 export class TabData 
 {
@@ -24,7 +34,6 @@ export class TabData
 <#
     }
 #>
-
 }
 
 <#
@@ -35,7 +44,6 @@ export class TabData
 
 class <#= className #>
 {
-
 <#
         foreach (var tabItem in tab.data)
         {
@@ -44,7 +52,6 @@ class <#= className #>
 <#
         }
 #>
-
 }
 
 <#
@@ -54,36 +61,59 @@ class <#= className #>
 <#
     foreach (var tab in jsonData.tabs)
     {
-        var tabName = GetSettingTabName(tab.tabName);
+        var tabName = tab.tabName;
+        var settingTabName = GetSettingTabName(tab.tabName);
+        var dataName = tabName + "Data"; 
 #>
 
-export function <#= tabName #>(props:any) {
-    return (
+export function <#= settingTabName #>(props:any) {
+    let tabIx = props.tabIx;
+    let tabValue = props.tabValue;
+    let handleSettingChange = props.handleSettingChange;
+    let data = props.<#= dataName #>;
+    let tabs = [
 <#
+        bool isFirst = true;
         foreach (var tabItem in tab.data)
         {
             var nameSpace = tabName;
             var settingName = tabItem.name;
+            var settingValue = $"data." + settingName;
+            var iconName = tabItem.iconName;
+            var step = tabItem.step;
+            var min = tabItem.min;
+            var max = tabItem.max;
+            var separator = isFirst ? "" : ", ";
             switch (tabItem.type)
             {
                 default:
 #>
-            <SettingsSlider nameSpace="<#= nameSpace #>" name="<#= settingName #>" label={[ "<#= settingName #>", <br/>, "<#= nameSpace #>"]} icon={<VolumeUp/>} initialValue={settingValue} step={0.4} min={10} max={110} handleChange={handleSettingChange}/>
+            <SettingsSlider nameSpace="<#= nameSpace #>" name="<#= settingName #>" label={[ "<#= settingName #>", <br/>, "<#= nameSpace #>"]} icon={<<#= iconName #>/>} initialValue={<#= settingValue#>} step={<#= step #>} min={<#= min #>} max={<#= max #>} handleChange={handleSettingChange}/>, 
 <#
                     break;
             }
 #>
-
 <#
+            isFirst = false;
         }
 #>
+    ];
+    return (
+        <TabPanel value={tabValue} index={tabIx}>
+            {tabs}
+        </TabPanel>
     );
 }
 
+<#= settingTabName #>.propTypes = {
+    tabIx: PropTypes.number.isRequired,
+    tabValue: PropTypes.number.isRequired,
+    handleSettingChange: PropTypes.func.isRequired, 
+    <#= dataName #>: PropTypes.any.isRequired,
+} 
 <#
     }
 #>
-
 
 <#+
 
@@ -98,6 +128,31 @@ export function <#= tabName #>(props:any) {
     }
 
 /*
+
+export function AudioSettingsTab(props:any) {
+    let tabIx = props.tabIx;
+    let tabValue = props.tabValue;
+    let handleChange = props.handleSettingChange;
+    let data = props.audioData;
+    let tabs = [
+        <SettingsSlider nameSpace="audio" name="MasterVolume" label={[ "MasterVolume", <br/>, "AudioSettingsTab"]} initialValue={data.MasterVolume.value} handleChange={handleChange} />,
+        <SettingsSlider nameSpace="audio" name="MusicVolume" label={[ "MusicVolume", <br/>, "AudioSettingsTab"]} initialValue={data.MusicVolume.value} handleChange={handleChange} />
+    ]
+    return (
+        <TabPanel value={tabValue} index={tabIx}>
+            {tabs}
+        </TabPanel>
+    );
+}
+
+AudioSettingsTab.propTypes = {
+    tabIx: PropTypes.number.isRequired,
+    tabValue: PropTypes.number.isRequired,
+    handleSettingChange: PropTypes.func.isRequired, 
+    audioData: PropTypes.any.isRequired,
+} 
+
+
 
 class UIData {
     public CharDatas: Array<CharData> = [

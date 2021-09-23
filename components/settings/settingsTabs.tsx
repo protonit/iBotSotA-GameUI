@@ -6,7 +6,7 @@ import {VolumeUp} from "@material-ui/icons";
 import PropTypes from "prop-types";
 import {SettingsDialog} from "./settingsDialog";
 import _ from "lodash";
-import {AudioSettingsTab, ControlsSettingsTab, VideoSettingsTab} from "./InterfaceGen";
+import {AudioSettingsTab, ControlSettingsTab, VideoSettingsTab} from "./InterfaceGen";
 
 export function TabPanel(props:any) {
     const { children, value, index, ...other } = props;
@@ -59,23 +59,10 @@ export function SettingsTabs(props:any) {
     };
 
     const handleSettingChange = (event: any, nameSpace:string, name:string, value:any) => {
-        /*
-        let settingType:Array<any> = data[nameSpace];
-        let setting = settingType.find(item => item.name == name);
-        if(setting) {
-            setting.value = value;
-            console.log("Setting: " + nameSpace + "." + name + " to: " + value);
-        } else
-            console.log("Cannot find setting: " + nameSpace + "." + name);
-         */
         let settingType = data[nameSpace];
-        let setting = settingType[name];
-        if(setting) {
-            setting.value = value;
-            //console.log("Setting: " + nameSpace + "." + name + " to: " + value);
-        } else
-            console.log("Cannot find setting: " + nameSpace + "." + name);
+        settingType[name] = value;
     }
+    
     let keys = Object.keys(data);
     let tabs = keys.map((value, index, array) => <Tab label={value} {...a11yProps({index})} />); 
 
@@ -83,20 +70,11 @@ export function SettingsTabs(props:any) {
     //var Object.values()
     
     let tabIx = 0;
-    let tabPanels = [];
-    tabPanels.push(
-        <TabPanel index={tabIx++} value={tabValue}>
-            <VideoSettingsTab />
-        </TabPanel>);
-    tabPanels.push(
-            <AudioSettingsTab tabIx={tabIx++} tabValue={tabValue} handleSettingChange={handleSettingChange} audioData={data.audio} />
-    );
-    tabPanels.push(
-        <TabPanel index={tabIx++} value={tabValue}>
-            <ControlsSettingsTab />
-        </TabPanel>
-    );
-
+    let tabPanels = [
+        <VideoSettingsTab tabIx={tabIx++} tabValue={tabValue} handleSettingChange={handleSettingChange} videoData={data.video} />,
+        <AudioSettingsTab tabIx={tabIx++} tabValue={tabValue} handleSettingChange={handleSettingChange} audioData={data.audio} />,
+        <ControlSettingsTab tabIx={tabIx++} tabValue={tabValue} handleSettingChange={handleSettingChange} controlData={data.control} /> 
+    ];
 
     return (
         <div className={classes.root}>
