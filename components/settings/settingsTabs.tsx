@@ -6,8 +6,9 @@ import {VolumeUp} from "@material-ui/icons";
 import PropTypes from "prop-types";
 import {SettingsDialog} from "./settingsDialog";
 import _ from "lodash";
+import {AudioSettingsTab, ControlsSettingsTab, VideoSettingsTab} from "./InterfaceGen";
 
-function TabPanel(props:any) {
+export function TabPanel(props:any) {
     const { children, value, index, ...other } = props;
 
     return (
@@ -91,7 +92,11 @@ export function SettingsTabs(props:any) {
                 {tabs}
             </TabPanel>);
     });
-    
+    tabPanels.push(<VideoSettingsTab />)
+    tabPanels.push(<AudioSettingsTab />)
+    tabPanels.push(<ControlsSettingsTab />)
+
+
     return (
         <div className={classes.root}>
             <AppBar position="static">

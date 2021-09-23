@@ -1,0 +1,37 @@
+{
+  "tabs": [
+    {
+      "tabName": "video",
+      "data": [
+        {
+          "name": "FpsCap",
+          "type": "number",
+          "value": 66
+        }
+      ]
+    },
+    {
+      "tabName": "audio",
+      "data": [
+        {
+          "name": "MasterVolume",
+          "type": "number",
+          "value": 11
+        },
+        {
+          "name": "MusicVolume",
+          "type": "number",
+          "value": 22
+        }
+      ]
+    },
+    {
+      "tabName": "controls",
+      "data": [
+        
+      ]
+    }
+  ]
+}
+
+    

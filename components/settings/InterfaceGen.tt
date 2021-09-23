@@ -3,197 +3,117 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".tsx" #>
 <#@ assembly name="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ assembly name="System.Runtime.Serialization" #>
+<#@ assembly name="System.Xml" #>
 <#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Runtime.Serialization.Json" #>
+<#@ include file="InterfaceGen.ttinclude" #>
 
-using System;
-using System.Collections.Generic;
-using Hashtable=ExitGames.Client.Photon.Hashtable;
-using Photon.Realtime;
+<#
+    var jsonData = JsonData.ReadJsonData();
+#>
 
-
-public partial class PlayerBotNetwork : <#= String.Join(", ", GetInterfaces()) #>
+export class TabData 
 {
 <#
-    var interfaces = GetInterfaces();
-    var clearDataCalls = interfaces.Select(item => "clear" + item + "Data();").ToArray();
-    var clearDataStr = string.Join(Environment.NewLine, clearDataCalls);
-    var clearEventCalls = interfaces.Select(item => "clear" + item + "Events();").ToArray();
-    var clearEventStr = string.Join(Environment.NewLine, clearEventCalls);
+    foreach (var tab in jsonData.tabs)
+    {
+        var className = GetSettingClassName(tab.tabName);
 #>
-
-    public void ClearData() 
-    {
-<#= clearDataStr #>
-    }
-
-    public void ClearEvents()
-    {
-<#= clearEventStr #>
-    }
-
-<#
-    foreach(var interfaceName in interfaceDict.Keys) 
-    {
-        List<string> fieldNullAssignments = new List<string>();
-        List<string> eventNullAssignments = new List<string>();
-        
-        var methodDatas = interfaceDict[interfaceName];
-        foreach(var md in methodDatas) 
-        {
-            var methodName  = md.MethodName;
-            var returnValue = md.ReturnValue;
-            bool storeArgumentObjects = md.StoreArgumentObjects;
-            var arguments = (md.Arguments ?? "").Split('|');
-            var argumentData = arguments.Select(item => new { 
-                dataType = item.Split(' ').First(),
-                name = item.Split(' ').Last()
-            }).ToArray();
-            var argumentsNames = string.Join(", ", argumentData.Select(item => item.name));
-            var argumentString = string.Join(", ", arguments);
-            var handlerName = methodName + "Handler";
-
-            string storedDataFields = "";
-            string dataFieldsAssignments = "";
-            if(storeArgumentObjects && !string.IsNullOrEmpty(arguments.First())) 
-            {
-                var fieldDeclarations = argumentData.Select(item => "public  " + item.dataType +  " " + methodName + "_" + item.name + ";").ToArray();
-                storedDataFields = string.Join(Environment.NewLine, fieldDeclarations);
-
-                var fieldsAssignments = argumentData.Select(item => methodName + "_" + item.name + " = " + item.name + ";").ToArray();
-                dataFieldsAssignments = string.Join(Environment.NewLine, fieldsAssignments);
-
-                var nullAssignments = argumentData
-                    .Where(item => !skipNullForType(item.dataType))
-                    .Select(item => methodName + "_" + item.name + " = null;").ToArray();
-                fieldNullAssignments.AddRange(nullAssignments);
-            }
-
-            var eventNullAssignment = methodName + " = null;";
-            eventNullAssignments.Add(eventNullAssignment);
-
-#>
-
-    <#= storedDataFields #>
-    public delegate <#= returnValue #> <#= handlerName #>(<#= argumentString #>);
-
-    public event <#= handlerName #> <#= methodName #>;
-    <#= returnValue #> <#= interfaceName #>.<#= methodName #>(<#= argumentString #>)
-    {
-        <#= dataFieldsAssignments #>
-        <#= methodName #>?.Invoke(<#= argumentsNames #>);
-    }
-
-<#
-        }
-
-        var clearDataMethod = "clear" + interfaceName + "Data";
-        var clearEventMethod = "clear" + interfaceName + "Events";
-
-#>
-
-        private void <#= clearDataMethod #>() 
-        {
-<#= string.Join(Environment.NewLine, fieldNullAssignments) #>
-        }
-
-        private void <#= clearEventMethod #>()
-        {
-<#= string.Join(Environment.NewLine, eventNullAssignments) #>
-        }
-
-
+    public <#= tab.tabName #> : <#= className #> = new <#= className #>;
 <#
     }
 #>
+
 }
+
+<#
+    foreach (var tab in jsonData.tabs)
+    {
+        var className = GetSettingClassName(tab.tabName);
+#>
+
+class <#= className #>
+{
+
+<#
+        foreach (var tabItem in tab.data)
+        {
+#>
+    public <#= tabItem.name #>:<#= tabItem.type #> = 0;
+<#
+        }
+#>
+
+}
+
+<#
+    }
+#>
+
+<#
+    foreach (var tab in jsonData.tabs)
+    {
+        var tabName = GetSettingTabName(tab.tabName);
+#>
+
+export function <#= tabName #>(props:any) {
+    return (
+<#
+        foreach (var tabItem in tab.data)
+        {
+            var nameSpace = tabName;
+            var settingName = tabItem.name;
+            switch (tabItem.type)
+            {
+                default:
+#>
+            <SettingsSlider nameSpace="<#= nameSpace #>" name="<#= settingName #>" label={[ "<#= settingName #>", <br/>, "<#= nameSpace #>"]} icon={<VolumeUp/>} initialValue={settingValue} step={0.4} min={10} max={110} handleChange={handleSettingChange}/>
+<#
+                    break;
+            }
+#>
+
+<#
+        }
+#>
+    );
+}
+
+<#
+    }
+#>
+
 
 <#+
 
-    public class MethodData 
+    string GetSettingClassName(string name)
     {
-        public MethodData() 
-        {
-            StoreArgumentObjects = true;
-        }
-        public string ReturnValue { get; set; }
-        public string MethodName { get; set; }
-        public string Arguments { get; set; }
-        public bool StoreArgumentObjects { get; set; }
+        return name + "Settings";
     }
 
-    // Arguments
-    Dictionary<string, MethodData[]> interfaceDict = new Dictionary<string, MethodData[]>() 
+    string GetSettingTabName(string name)
     {
-            {
-                "IConnectionCallbacks", new []
-                {
-                    new MethodData() { MethodName = "OnConnected", ReturnValue = "void", Arguments = null },
-                    new MethodData() { MethodName = "OnConnectedToMaster", ReturnValue = "void", Arguments = null },
-                    new MethodData() { MethodName = "OnDisconnected", ReturnValue = "void", Arguments = "DisconnectCause cause" },
-                    new MethodData() { MethodName = "OnRegionListReceived", ReturnValue = "void", Arguments = "RegionHandler regionHandler" },
-                    new MethodData() { MethodName = "OnCustomAuthenticationResponse", ReturnValue = "void", Arguments = "Dictionary<string,object> data" },
-                    new MethodData() { MethodName = "OnCustomAuthenticationFailed", ReturnValue = "void", Arguments = "string debugMessage" },
-                }
-            },
-            {
-                "ILobbyCallbacks", new []
-                {
-                    new MethodData() { MethodName = "OnJoinedLobby", ReturnValue = "void", Arguments = null },
-                    new MethodData() { MethodName = "OnLeftLobby", ReturnValue = "void", Arguments = null },
-                    new MethodData() { MethodName = "OnRoomListUpdate", ReturnValue = "void", Arguments = "List<RoomInfo> roomList" },
-                    new MethodData() { MethodName = "OnLobbyStatisticsUpdate", ReturnValue = "void", Arguments = "List<TypedLobbyInfo> lobbyStatistics" },
-                }
-
-            },
-            {
-                "IMatchmakingCallbacks", new []
-                {
-                    new MethodData() { MethodName = "OnFriendListUpdate", ReturnValue = "void", Arguments = "List<FriendInfo> friendList" },
-                    new MethodData() { MethodName = "OnCreatedRoom", ReturnValue = "void", Arguments = null },
-                    new MethodData() { MethodName = "OnCreateRoomFailed", ReturnValue = "void", Arguments = "short returnCode|string message" },
-                    new MethodData() { MethodName = "OnJoinedRoom", ReturnValue = "void", Arguments = null },
-                    new MethodData() { MethodName = "OnJoinRoomFailed", ReturnValue = "void", Arguments = "short returnCode|string message" },
-                    new MethodData() { MethodName = "OnJoinRandomFailed", ReturnValue = "void", Arguments = "short returnCode|string message" },
-                    new MethodData() { MethodName = "OnLeftRoom", ReturnValue = "void", Arguments = null },
-                }
-
-            },
-            {
-                "IInRoomCallbacks", new []
-                {
-                    new MethodData() { MethodName = "OnPlayerEnteredRoom", ReturnValue = "void", Arguments = "Player newPlayer" },
-                    new MethodData() { MethodName = "OnPlayerLeftRoom", ReturnValue = "void", Arguments = "Player otherPlayer" },
-                    new MethodData() { MethodName = "OnRoomPropertiesUpdate", ReturnValue = "void", Arguments = "Hashtable propertiesThatChanged" },
-                    new MethodData() { MethodName = "OnPlayerPropertiesUpdate", ReturnValue = "void", Arguments = "Player targetPlayer|Hashtable changedProps" },
-                    new MethodData() { MethodName = "OnMasterClientSwitched", ReturnValue = "void", Arguments = "Player newMasterClient" },
-                }
-
-            },
-    };
-
-    /*
-    Dictionary<string, Tuple<string, string>[]> interfaceDict =
-        new Dictionary<string, Tuple<string, string>[]>()
-        {
-            {
-                "test", new []
-                {
-                    Tuple.Create("void", (string) null)
-                }
-            },
-        };
-
-        */
-
-    string[] SkipNullForDataTypes = new string[] { "DisconnectCause", "short" };
-    bool skipNullForType(string dataType) 
-    {
-        return SkipNullForDataTypes.Contains(dataType);
+        return name.Substring(0, 1).ToUpper() + name.Substring(1) + "SettingsTab";
     }
 
-    string[] GetInterfaces() 
-    {
-        return interfaceDict.Keys.ToArray();
-    }
+/*
 
+class UIData {
+    public CharDatas: Array<CharData> = [
+        {Name: "Kalmox", Health: 0.7},
+        {Name: "", Health: 0 },
+        {Name: "KyleBot", Health: 0.7},
+        {Name: "KyleBot", Health: 0.7}
+    ];
+    public MatchData: MatchData = new MatchData();
+}
+
+class CharData {
+    public Name:string = "";
+    public Health:number = 0.70;
+}
+
+
+*/
 #>

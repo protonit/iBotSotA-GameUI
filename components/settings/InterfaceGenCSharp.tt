@@ -1,0 +1,35 @@
+﻿<#@ template language="C#" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ assembly name="System.Runtime.Serialization" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Runtime.Serialization.Json" #>
+<#@ include file="InterfaceGen.ttinclude" #>
+
+<#
+    var jsonData = JsonData.ReadJsonData();
+#>
+
+using System;
+using System.Collections.Generic;
+
+public partial class SettingData 
+{
+<#
+    foreach (var tab in jsonData.tabs)
+    {
+#>
+    // <#= tab.tabName #> - test
+<#
+    }
+#>
+}
+
+
+<#+
+#>
+
