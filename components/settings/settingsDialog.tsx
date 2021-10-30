@@ -51,7 +51,7 @@ function SettingsDialog(props:any) {
     return (
             <Dialog className={classes.form}
                 fullWidth={fullWidth}
-                maxWidth={maxWidth}
+                // maxWidth={maxWidth}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="max-width-dialog-title">

@@ -64,22 +64,22 @@ export function SettingsTabs(props:any) {
     }
     
     let keys = Object.keys(data);
-    let tabs = keys.map((value, index, array) => <Tab label={value} {...a11yProps({index})} />); 
+    let tabs = keys.map((value, index, array) => <Tab label={value} {...a11yProps({index})} key={index} />); 
 
     let values = Object.values(data);
     //var Object.values()
     
     let tabIx = 0;
     let tabPanels = [
-        <VideoSettingsTab tabIx={tabIx++} tabValue={tabValue} handleSettingChange={handleSettingChange} videoData={data.video} />,
-        <AudioSettingsTab tabIx={tabIx++} tabValue={tabValue} handleSettingChange={handleSettingChange} audioData={data.audio} />,
-        <ControlSettingsTab tabIx={tabIx++} tabValue={tabValue} handleSettingChange={handleSettingChange} controlData={data.control} /> 
+        <VideoSettingsTab tabIx={tabIx++} tabValue={tabValue} handleSettingChange={handleSettingChange} videoData={data.video} key={1} />,
+        <AudioSettingsTab tabIx={tabIx++} tabValue={tabValue} handleSettingChange={handleSettingChange} audioData={data.audio} key={2} />,
+        <ControlSettingsTab tabIx={tabIx++} tabValue={tabValue} handleSettingChange={handleSettingChange} controlData={data.control} key={3} /> 
     ];
 
     return (
         <div className={classes.root}>
             <AppBar position="static">
-                <Tabs value={tabValue} onChange={handleChange} aria-label="simple tabs example">
+                <Tabs value={tabValue} onChange={handleChange} aria-label="simple tabs example" key={tabValue}>
                     {tabs}
                 </Tabs>
             </AppBar>

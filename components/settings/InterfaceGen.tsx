@@ -7,7 +7,7 @@ import {TabPanel} from "./settingsTabs";
 import PropTypes from "prop-types";
 import {AspectRatio, Mouse, VolumeUp} from "@material-ui/icons";
 
-export class TabData 
+export class SettingsData 
 {
     public video : videoSettings = new videoSettings;
     public audio : audioSettings = new audioSettings;
@@ -41,7 +41,7 @@ export function VideoSettingsTab(props:any) {
     let handleSettingChange = props.handleSettingChange;
     let data = props.videoData;
     let tabs = [
-            <SettingsSlider nameSpace="video" name="FpsCap" label={[ "FpsCap", <br/>, "video"]} icon={<AspectRatio/>} initialValue={data.FpsCap} step={1} min={0} max={100} handleChange={handleSettingChange}/>, 
+            <SettingsSlider key={1} nameSpace="video" name="FpsCap" label={[ "FpsCap", <br key={1}/>, "video"]} icon={<AspectRatio/>} initialValue={data.FpsCap} step={1} min={60} max={800} handleChange={handleSettingChange}/>, 
     ];
     return (
         <TabPanel value={tabValue} index={tabIx}>
@@ -63,8 +63,8 @@ export function AudioSettingsTab(props:any) {
     let handleSettingChange = props.handleSettingChange;
     let data = props.audioData;
     let tabs = [
-            <SettingsSlider nameSpace="audio" name="MasterVolume" label={[ "MasterVolume", <br/>, "audio"]} icon={<VolumeUp/>} initialValue={data.MasterVolume} step={1} min={0} max={100} handleChange={handleSettingChange}/>, 
-            <SettingsSlider nameSpace="audio" name="MusicVolume" label={[ "MusicVolume", <br/>, "audio"]} icon={<VolumeUp/>} initialValue={data.MusicVolume} step={1} min={0} max={100} handleChange={handleSettingChange}/>, 
+            <SettingsSlider key={1} nameSpace="audio" name="MasterVolume" label={[ "MasterVolume", <br key={1}/>, "audio"]} icon={<VolumeUp/>} initialValue={data.MasterVolume} step={1} min={0} max={100} handleChange={handleSettingChange}/>, 
+            <SettingsSlider key={2} nameSpace="audio" name="MusicVolume" label={[ "MusicVolume", <br key={1}/>, "audio"]} icon={<VolumeUp/>} initialValue={data.MusicVolume} step={1} min={0} max={100} handleChange={handleSettingChange}/>, 
     ];
     return (
         <TabPanel value={tabValue} index={tabIx}>
@@ -86,7 +86,7 @@ export function ControlSettingsTab(props:any) {
     let handleSettingChange = props.handleSettingChange;
     let data = props.controlData;
     let tabs = [
-            <SettingsSlider nameSpace="control" name="Sensitivity" label={[ "Sensitivity", <br/>, "control"]} icon={<Mouse/>} initialValue={data.Sensitivity} step={1} min={0} max={100} handleChange={handleSettingChange}/>, 
+            <SettingsSlider key={1} nameSpace="control" name="Sensitivity" label={[ "Sensitivity", <br key={1}/>, "control"]} icon={<Mouse/>} initialValue={data.Sensitivity} step={0.01} min={0} max={30} handleChange={handleSettingChange}/>, 
     ];
     return (
         <TabPanel value={tabValue} index={tabIx}>

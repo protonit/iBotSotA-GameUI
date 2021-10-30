@@ -9,7 +9,7 @@ import {tSArrayType} from '@babel/types';
 import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
 import moment from 'moment';
-import {any} from 'prop-types';
+import PropTypes, {any} from 'prop-types';
 import { useEffect } from 'react';
 import { letterFrequency } from '@visx/mock-data';
 import { Group } from '@visx/group';
@@ -19,7 +19,7 @@ import { Button } from '@material-ui/core';
 import {red} from '@material-ui/core/colors';
 import common from '../common/commonImports';
 import { SettingsDialog  } from '../components/settings/settingsDialog';
-import {TabData} from "../components/settings/InterfaceGen";
+import {SettingsData} from "../components/settings/InterfaceGen";
 import {type} from "os";
 
 function SetupCallFunctions() {
@@ -57,7 +57,7 @@ class StartMenu extends React.Component<{MenuData:StartMenuData}>
                     <div  className={styles.topRow}>top</div>
                         <div className={styles.gameArea}>
                             <GraphPanel posStyle={{left: "0%"}} />
-                            <MenuButtons posStyle={{left: "35%"}}>buttons</MenuButtons>
+                            <MenuButtons posStyle={{left: "35%"}} SettingsData={new SettingsData()} />
                             <div style={{left: "70%"}} className={styles.menuPanel}>right</div>
                         </div>
                     <div className={styles.bottomRow}>bottom</div>
@@ -143,31 +143,38 @@ function OnStartClick() {
         setTimeout(wndAny.OnStartClick, 1000);
     }
 }
+
 function OnSettingsClick() {
     if(global.window) {
+        let wndAny:any = global.window;
+        let playAudio = new Audio(common.clickOpenAudio);
+        playAudio.play();
+        let isGameRunning:boolean = true;
+        if(isGameRunning)
+            setTimeout(wndAny.OnSettingsClick, 1000);
+        else {
+            setTimeout(() => {
+                wndAny.OpenSettingsDialog(new SettingsData());
+            }, 1000);
+        }
     }
 }
 
 function MenuButtons(props:any) {
     const [open, setOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = React.useState(0);
-
+    const [data, setData] = React.useState(props.SettingsData)
     //let wndAny:any = global.window;
     //let data = wndAny.SettingData;
 
-    let typedData : TabData = new TabData();
-    typedData.video.FpsCap = 66;
-    typedData.audio.MasterVolume = 13;
-    typedData.audio.MusicVolume = 55;
-    typedData.control.Sensitivity = 7.0;
-    
-    const onSettingsClick = () => {
-        let playAudio = new Audio(common.clickOpenAudio);
-        playAudio.play();
-        setTimeout(() => {
+    if(global.window) {
+        let wndAny:any = global.window;
+        wndAny.OpenSettingsDialog = function(settingsData:SettingsData) {
+            setData(settingsData);
             setOpen(true);
-        }, 100);
-    };
+        }
+
+    }
     
     const handleClose = (value:any) => {
         let playAudio = new Audio(common.clickCloseAudio);
@@ -179,14 +186,18 @@ function MenuButtons(props:any) {
     };
     
     return (<div style={props.posStyle} className={styles.menuPanel}>
-        <Button color={'primary'} classes={{label: styles.menuButtonLabel, root: styles.menuButtonRoot }} onClick={onSettingsClick}>Settings</Button>
+        <Button color={'primary'} classes={{label: styles.menuButtonLabel, root: styles.menuButtonRoot }} onClick={OnSettingsClick}>Settings</Button>
         <br/>
         <Button color={'primary'} classes={{label: styles.menuButtonLabel, root: styles.menuButtonRoot }} onClick={OnStartClick}>Start</Button>
-        <SettingsDialog open={open} onClose={handleClose} selectedValue={1} data={typedData} />
+        <SettingsDialog open={open} onClose={handleClose} selectedValue={1} data={data} />
     </div> );
 
 }
 
+MenuButtons.propTypes = {
+    SettingsData: PropTypes.instanceOf<SettingsData>(SettingsData).isRequired,
+    posStyle: PropTypes.any
+}
 
 
 class StartMenuData
