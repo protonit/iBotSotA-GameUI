@@ -1,0 +1,80 @@
+﻿<#@ template language="C#" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ assembly name="System.Runtime.Serialization" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Runtime.Serialization.Json" #>
+<#@ include file="InterfaceGen.ttinclude" #>
+
+<#
+    var jsonData = JsonData.ReadJsonData();
+#>
+
+using System;
+using System.Collections.Generic;
+
+public partial class SettingData 
+{
+<#
+    foreach (var tab in jsonData.tabs)
+    {
+        var tabName = tab.tabName;
+        var className = GetSettingClassName(tabName);
+        
+#>
+    public <#= className #> <#= tabName #> = new <#= className #>();
+<#
+    }
+#>
+}
+<#
+    foreach (var tab in jsonData.tabs)
+    {
+        var className = GetSettingClassName(tab.tabName);
+#>
+public partial class <#= className #> 
+{
+<#
+        foreach (var tabItem in tab.data)
+        {
+            var jsType = tabItem.type;
+            var fieldType = GetCSharpDataType(jsType);
+            var fieldName = tabItem.name;
+#>
+    public <#= fieldType #> <#= fieldName #>;
+<#
+        }
+#>
+}
+<#
+    }
+
+#>
+
+
+<#+
+    string GetCSharpDataType(string jsDataType)
+    {
+        switch (jsDataType)
+        {
+            case "number":
+                return "double";
+            case "string":
+                return "string";
+            case "Date":
+                return "DateTime";
+            default:
+                return jsDataType;
+        }
+    }
+
+    string GetSettingClassName(string tabName)
+    {
+        return tabName + "Settings";
+    }
+#>
+

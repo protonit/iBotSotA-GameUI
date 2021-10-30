@@ -9,16 +9,30 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "@visx/group": "^2.1.0",
+    "@visx/mock-data": "^2.1.0",
+    "@visx/scale": "^2.1.0",
+    "@visx/shape": "^2.1.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "next": "11.1.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react-dom": "^17.0.2",
+    "react-sweet-progress": "^1.1.2",
     "sass": "^1.38.0",
     "sharp": "^0.29.0"
   },
   "devDependencies": {
+    "@theball/appgen": "^1.0.10",
+    "@types/lodash": "^4.14.172",
     "@types/react": "17.0.19",
+    "@types/react-dom": "^17.0.9",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.0",
-    "typescript": "4.3.5"
+    "file-loader": "^6.2.0",
+    "typescript": "4.3.5",
+    "url-loader": "^4.1.1"
   }
 }

@@ -1,0 +1,51 @@
+﻿<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Runtime" #>
+<#+
+    // features to be included to other t4 files
+    public class JsonData
+    {
+        public static JsonData ReadJsonData()
+        {
+            DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(JsonData));
+            var jsonFileContent = File.ReadAllBytes("InterfaceGen.json");
+
+            using MemoryStream memStream = new MemoryStream(jsonFileContent);
+
+            var jsonData = (JsonData) jsonSerializer.ReadObject(memStream);
+            return jsonData;
+        }
+        
+        public List<Tab> tabs = new List<Tab>();
+    }
+
+    public class Tab
+    {
+        public string tabName;
+        public List<TabData> data = new List<TabData>();
+    }
+
+    public class TabData
+    {
+        public string name;
+        public string type;
+        public string iconName;
+        public double step = 1;
+        public double min = 0;
+        public double max = 100;
+        public double? NumericValue;
+        public string StringValue;
+        public DateTime? DateTimeValue;
+    }
+
+    /*
+      "tabName": "video",
+      "data": [
+        {
+          "name": "FpsCap",
+          "type": "number",
+          "value": 66
+        }
+    */
+#>

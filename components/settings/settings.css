@@ -1,0 +1,84 @@
+.container {
+    min-height: 100vh;
+    padding: 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.topRow {
+    position: absolute;
+    /*
+    border-style: solid;
+    border-color: red;
+    border-width: 2px;
+    */
+    width: 96%;
+    height: 10%;
+}
+
+.gameArea {
+    position: absolute;
+    /*
+    border-style: solid;
+    border-color: green;
+    border-width: 2px;
+    */
+    width: 96%;
+    height: 68%;
+    top: 14%;
+    text-align: center;
+}
+
+.bottomRow {
+    position: absolute;
+    /*
+    border-style: solid;
+    border-color: gray;
+    border-width: 2px;
+    */
+    width: 96%;
+    height: 16%;
+    top: 82%;
+}
+
+.settingsPanel {
+    position: absolute;
+    height: 100%;
+    width: 30%;
+    text-align: center;
+    font-size: xx-large;
+    font-family: "Expletus Sans";
+    font-weight: bold;
+
+    /**/
+    border-style: solid;
+    border-color: bisque;
+    border-width: 3px;
+    /**/
+
+}
+
+.buttonLabel {
+    text-transform: capitalize;
+    font-family: "Expletus Sans";
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.buttonRoot {
+    background: linear-gradient(45deg, #6be3fe 30%, #73ff53 90%);
+    borderRadius: 3;
+    border: 0;
+    color: white;
+    height: 48px;
+    padding:  0 30px;
+    boxShadow: 0 3px 5px 2px rgba(255, 105, 135, .3);
+}
+
+.buttonRoot:hover {
+    background: linear-gradient(135deg, #6be3fe 30%, #73ff53 90%);
+}

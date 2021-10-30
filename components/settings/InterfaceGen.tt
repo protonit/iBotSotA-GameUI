@@ -1,0 +1,179 @@
+﻿<#@ template language="C#" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".tsx" #>
+<#@ assembly name="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ assembly name="System.Runtime.Serialization" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Runtime.Serialization.Json" #>
+<#@ include file="InterfaceGen.ttinclude" #>
+
+<#
+    var jsonData = JsonData.ReadJsonData();
+    var iconImports =
+        jsonData.tabs.SelectMany(tab => tab.data).Select(item => item.iconName).Distinct().OrderBy(item => item)
+            .ToArray();
+    var iconImportList = String.Join(", ", iconImports);
+#>
+
+import {SettingsSlider} from "./settingsSlider";
+import React from "react";
+import {TabPanel} from "./settingsTabs";
+import PropTypes from "prop-types";
+import {<#= iconImportList #>} from "@material-ui/icons";
+
+export class SettingsData 
+{
+<#
+    foreach (var tab in jsonData.tabs)
+    {
+        var className = GetSettingClassName(tab.tabName);
+#>
+    public <#= tab.tabName #> : <#= className #> = new <#= className #>;
+<#
+    }
+#>
+}
+
+<#
+    foreach (var tab in jsonData.tabs)
+    {
+        var className = GetSettingClassName(tab.tabName);
+#>
+
+class <#= className #>
+{
+<#
+        foreach (var tabItem in tab.data)
+        {
+#>
+    public <#= tabItem.name #>:<#= tabItem.type #> = 0;
+<#
+        }
+#>
+}
+
+<#
+    }
+#>
+
+<#
+    foreach (var tab in jsonData.tabs)
+    {
+        var tabName = tab.tabName;
+        var settingTabName = GetSettingTabName(tab.tabName);
+        var dataName = tabName + "Data"; 
+#>
+
+export function <#= settingTabName #>(props:any) {
+    let tabIx = props.tabIx;
+    let tabValue = props.tabValue;
+    let handleSettingChange = props.handleSettingChange;
+    let data = props.<#= dataName #>;
+    let tabs = [
+<#
+        bool isFirst = true;
+        int keyIndex = 1;
+        foreach (var tabItem in tab.data)
+        {
+            //bool needsKeying = tab.data.Count > 1;
+            bool needsKeying = true;
+            var nameSpace = tabName;
+            var settingName = tabItem.name;
+            var settingValue = $"data." + settingName;
+            var iconName = tabItem.iconName;
+            var step = tabItem.step;
+            var min = tabItem.min;
+            var max = tabItem.max;
+            var separator = isFirst ? "" : ", ";
+            var keyPart = needsKeying ? $"key={{{keyIndex}}}" : "";
+            switch (tabItem.type)
+            {
+                default:
+#>
+            <SettingsSlider <#= keyPart #> nameSpace="<#= nameSpace #>" name="<#= settingName #>" label={[ "<#= settingName #>", <br key={1}/>, "<#= nameSpace #>"]} icon={<<#= iconName #>/>} initialValue={<#= settingValue#>} step={<#= step #>} min={<#= min #>} max={<#= max #>} handleChange={handleSettingChange}/>, 
+<#
+                    break;
+            }
+#>
+<#
+            isFirst = false;
+            keyIndex++;
+        }
+#>
+    ];
+    return (
+        <TabPanel value={tabValue} index={tabIx}>
+            {tabs}
+        </TabPanel>
+    );
+}
+
+<#= settingTabName #>.propTypes = {
+    tabIx: PropTypes.number.isRequired,
+    tabValue: PropTypes.number.isRequired,
+    handleSettingChange: PropTypes.func.isRequired, 
+    <#= dataName #>: PropTypes.any.isRequired,
+} 
+<#
+    }
+#>
+
+<#+
+
+    string GetSettingClassName(string name)
+    {
+        return name + "Settings";
+    }
+
+    string GetSettingTabName(string name)
+    {
+        return name.Substring(0, 1).ToUpper() + name.Substring(1) + "SettingsTab";
+    }
+
+/*
+
+export function AudioSettingsTab(props:any) {
+    let tabIx = props.tabIx;
+    let tabValue = props.tabValue;
+    let handleChange = props.handleSettingChange;
+    let data = props.audioData;
+    let tabs = [
+        <SettingsSlider nameSpace="audio" name="MasterVolume" label={[ "MasterVolume", <br/>, "AudioSettingsTab"]} initialValue={data.MasterVolume.value} handleChange={handleChange} />,
+        <SettingsSlider nameSpace="audio" name="MusicVolume" label={[ "MusicVolume", <br/>, "AudioSettingsTab"]} initialValue={data.MusicVolume.value} handleChange={handleChange} />
+    ]
+    return (
+        <TabPanel value={tabValue} index={tabIx}>
+            {tabs}
+        </TabPanel>
+    );
+}
+
+AudioSettingsTab.propTypes = {
+    tabIx: PropTypes.number.isRequired,
+    tabValue: PropTypes.number.isRequired,
+    handleSettingChange: PropTypes.func.isRequired, 
+    audioData: PropTypes.any.isRequired,
+} 
+
+
+
+class UIData {
+    public CharDatas: Array<CharData> = [
+        {Name: "Kalmox", Health: 0.7},
+        {Name: "", Health: 0 },
+        {Name: "KyleBot", Health: 0.7},
+        {Name: "KyleBot", Health: 0.7}
+    ];
+    public MatchData: MatchData = new MatchData();
+}
+
+class CharData {
+    public Name:string = "";
+    public Health:number = 0.70;
+}
+
+
+*/
+#>
