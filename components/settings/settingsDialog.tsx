@@ -31,8 +31,12 @@ function SettingsDialog(props:any) {
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
 
-    const handleClose = () => {
-        onClose(selectedValue);
+    const handleApply = () => {
+        onClose(selectedValue, true);
+    };
+    
+    const handleCancel = () => {
+        onClose(selectedValue, false);  
     };
 
     const handleMaxWidthChange = (event:any) => {
@@ -53,17 +57,17 @@ function SettingsDialog(props:any) {
                 fullWidth={fullWidth}
                 // maxWidth={maxWidth}
                 open={open}
-                onClose={handleClose}
+                onClose={handleCancel}
                 aria-labelledby="max-width-dialog-title">
                 <DialogTitle id="max-width-dialog-title">Settings</DialogTitle>
                 <DialogContent>
                     <SettingsTabs data={data} handleChange={handleChange} />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleApply} color="primary">
                         Apply
                     </Button>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleCancel} color="primary">
                         Cancel
                     </Button>
                 </DialogActions>

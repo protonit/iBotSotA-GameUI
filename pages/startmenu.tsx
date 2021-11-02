@@ -151,11 +151,11 @@ function OnSettingsClick() {
         playAudio.play();
         let isGameRunning:boolean = true;
         if(isGameRunning)
-            setTimeout(wndAny.OnSettingsClick, 1000);
+            setTimeout(wndAny.OnSettingsClick, 100);
         else {
             setTimeout(() => {
                 wndAny.OpenSettingsDialog(new SettingsData());
-            }, 1000);
+            }, 100);
         }
     }
 }
@@ -176,13 +176,17 @@ function MenuButtons(props:any) {
 
     }
     
-    const handleClose = (value:any) => {
+    const handleClose = (selectedValue:any, isApplied:boolean) => {
         let playAudio = new Audio(common.clickCloseAudio);
         playAudio.play();
         setTimeout(() => {
             setOpen(false);
         }, 100);
-        setSelectedValue(value);
+        setSelectedValue(selectedValue);
+        if(isApplied && global.window) {
+            let wndAny:any = global.window;
+            wndAny.SetSettingData(data);
+        }
     };
     
     return (<div style={props.posStyle} className={styles.menuPanel}>
