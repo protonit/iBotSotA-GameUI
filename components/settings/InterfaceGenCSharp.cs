@@ -22,10 +22,11 @@ public partial class audioSettings
     public double MasterVolume;
     public double MusicVolume;
 }
-[DebuggerDisplay("Sensitivity: {Sensitivity}")]
+[DebuggerDisplay("Sensitivity: {Sensitivity} AimSensitivity: {AimSensitivity}")]
 public partial class controlSettings 
 {
     public double Sensitivity;
+    public double AimSensitivity;
 }
 
 

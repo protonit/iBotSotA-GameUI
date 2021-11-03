@@ -40,8 +40,15 @@
           "iconName": "Mouse",
           "max": 30,
           "step": 0.01 
+        },
+        {
+          "name": "AimSensitivity",
+          "type": "number",
+          "value": 7.0,
+          "iconName": "Adjust",
+          "max": 30,
+          "step": 0.01
         }
-        
       ]
     }
   ]

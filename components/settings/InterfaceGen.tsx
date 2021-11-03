@@ -5,7 +5,7 @@ import {SettingsSlider} from "./settingsSlider";
 import React from "react";
 import {TabPanel} from "./settingsTabs";
 import PropTypes from "prop-types";
-import {AspectRatio, Mouse, VolumeUp} from "@material-ui/icons";
+import {Adjust, AspectRatio, Mouse, VolumeUp} from "@material-ui/icons";
 
 export class SettingsData 
 {
@@ -31,6 +31,7 @@ class audioSettings
 class controlSettings
 {
     public Sensitivity:number = 0;
+    public AimSensitivity:number = 0;
 }
 
 
@@ -87,6 +88,7 @@ export function ControlSettingsTab(props:any) {
     let data = props.controlData;
     let tabs = [
             <SettingsSlider key={1} nameSpace="control" name="Sensitivity" label={[ "Sensitivity", <br key={1}/>, "control"]} icon={<Mouse/>} initialValue={data.Sensitivity} step={0.01} min={0} max={30} handleChange={handleSettingChange}/>, 
+            <SettingsSlider key={2} nameSpace="control" name="AimSensitivity" label={[ "AimSensitivity", <br key={1}/>, "control"]} icon={<Adjust/>} initialValue={data.AimSensitivity} step={0.01} min={0} max={30} handleChange={handleSettingChange}/>, 
     ];
     return (
         <TabPanel value={tabValue} index={tabIx}>
