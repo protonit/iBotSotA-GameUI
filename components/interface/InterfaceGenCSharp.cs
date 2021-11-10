@@ -29,4 +29,27 @@ public partial class controlSettings
     public float AimSensitivity;
 }
 
+// UI Classes
+
+
+public class UIData
+{
+	public CharData[] CharDatas;
+	public MatchData MatchData;
+}
+
+
+
+public class CharData
+{
+	public string Name;
+	public float HealthPct;
+}
+
+public class MatchData
+{
+	public int CurrentChamber;
+	public int ChamberCount;
+	public DateTime MatchTime;
+}
 

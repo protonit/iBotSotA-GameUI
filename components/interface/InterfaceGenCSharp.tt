@@ -59,6 +59,41 @@ public partial class <#= className #>
 
 #>
 
+// UI Classes
+
+<#
+    foreach (var ui in jsonData.uiDatas)
+    {
+        var className = ui.uiName;
+        var propertyItems = ui.data.Select(item => $"\tpublic {GetCSharpDataType(item.type)} {item.name};").ToArray();
+        var propsStr = String.Join(Environment.NewLine, propertyItems);
+
+#>
+
+public class <#= className #>
+{
+<#= propsStr #>
+}
+
+<#
+    }
+#>
+
+<#
+    foreach (var dataClass in jsonData.dataClasses)
+    {
+        var className = dataClass.className;
+        var propertyItems = dataClass.data.Select(item => $"\tpublic {GetCSharpDataType(item.type)} {item.name};").ToArray();
+        var propsStr = String.Join(Environment.NewLine, propertyItems);
+#>
+
+public class <#= className #>
+{
+<#= propsStr #>
+}
+<#
+    }
+#>
 
 <#+
     string GetCSharpDataType(string type)
@@ -66,6 +101,7 @@ public partial class <#= className #>
         switch (type)
         {
             case "Date":
+            case "datetime":
                 return "DateTime";
             default:
                 return type;
