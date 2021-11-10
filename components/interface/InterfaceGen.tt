@@ -17,9 +17,9 @@
     var iconImportList = String.Join(", ", iconImports);
 #>
 
-import {SettingsSlider} from "./settingsSlider";
+import {SettingsSlider} from "../settings/settingsSlider";
 import React from "react";
-import {TabPanel} from "./settingsTabs";
+import {TabPanel} from "../settings/settingsTabs";
 import PropTypes from "prop-types";
 import {<#= iconImportList #>} from "@material-ui/icons";
 
@@ -47,8 +47,9 @@ class <#= className #>
 <#
         foreach (var tabItem in tab.data)
         {
+            var type = GetJSType(tabItem.type);
 #>
-    public <#= tabItem.name #>:<#= tabItem.type #> = 0;
+    public <#= tabItem.name #>:<#= type #> = 0;
 <#
         }
 #>
@@ -120,6 +121,49 @@ export function <#= settingTabName #>(props:any) {
     }
 #>
 
+<#
+    foreach (var ui in jsonData.uiDatas)
+    {
+        var className = ui.uiName;
+        var constructorItems = ui.data.Select(item => $"public {item.name}:{GetJSType(item.type)}").ToArray();
+        var constructorStr = String.Join(", ", constructorItems);
+#>
+export class <#= className #> {
+    constructor(<#= constructorStr #>) {
+    }
+}
+<#        
+    }
+#>
+
+<#
+    foreach (var dataClass in jsonData.dataClasses)
+    {
+        var className = dataClass.className;
+        var constructorItems = dataClass.data.Select(item => $"public {item.name}:{GetJSType(item.type)}").ToArray();
+        var constructorStr = String.Join(", ", constructorItems);
+#>
+
+export class <#= className #> {
+    constructor(<#= constructorStr #>) {
+    }
+<#
+        foreach (var propItem in dataClass.data)
+        {
+            var type = GetJSType(propItem.type);
+            var name = propItem.name;
+#>
+    // public <#= name #> : <#= type #>;
+<#
+        }
+#>
+}
+
+<#
+    }
+#>
+
+
 <#+
 
     string GetSettingClassName(string name)
@@ -132,6 +176,24 @@ export function <#= settingTabName #>(props:any) {
         return name.Substring(0, 1).ToUpper() + name.Substring(1) + "SettingsTab";
     }
 
+    string GetJSType(string type)
+    {
+        if (type.EndsWith("[]"))
+            return "Array<" + GetJSType(type.Replace("[]", "")) + ">";
+        switch (type)
+        {
+            case "int":
+            case "float":
+            case "double":
+                return "number";
+            case "datetime":
+            case "date":
+                return "Date";
+            default:
+                return type;
+        }
+    }
+    
 /*
 
 export function AudioSettingsTab(props:any) {

@@ -14,19 +14,19 @@ public partial class SettingData
 [DebuggerDisplay("FpsCap: {FpsCap}")]
 public partial class videoSettings 
 {
-    public double FpsCap;
+    public int FpsCap;
 }
 [DebuggerDisplay("MasterVolume: {MasterVolume} MusicVolume: {MusicVolume}")]
 public partial class audioSettings 
 {
-    public double MasterVolume;
-    public double MusicVolume;
+    public int MasterVolume;
+    public int MusicVolume;
 }
 [DebuggerDisplay("Sensitivity: {Sensitivity} AimSensitivity: {AimSensitivity}")]
 public partial class controlSettings 
 {
-    public double Sensitivity;
-    public double AimSensitivity;
+    public float Sensitivity;
+    public float AimSensitivity;
 }
 
 

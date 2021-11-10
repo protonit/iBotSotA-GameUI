@@ -1,9 +1,9 @@
 ﻿
 
 
-import {SettingsSlider} from "./settingsSlider";
+import {SettingsSlider} from "../settings/settingsSlider";
 import React from "react";
-import {TabPanel} from "./settingsTabs";
+import {TabPanel} from "../settings/settingsTabs";
 import PropTypes from "prop-types";
 import {Adjust, AspectRatio, Mouse, VolumeUp} from "@material-ui/icons";
 
@@ -103,4 +103,28 @@ ControlSettingsTab.propTypes = {
     handleSettingChange: PropTypes.func.isRequired, 
     controlData: PropTypes.any.isRequired,
 } 
+
+export class UIData {
+    constructor(public CharDatas:Array<CharData>, public MatchData:MatchData) {
+    }
+}
+
+
+export class CharData {
+    constructor(public Name:string, public HealthPct:number) {
+    }
+    // public Name : string;
+    // public HealthPct : number;
+}
+
+
+export class MatchData {
+    constructor(public CurrentChamber:number, public ChamberCount:number, public MatchTime:Date) {
+    }
+    // public CurrentChamber : number;
+    // public ChamberCount : number;
+    // public MatchTime : Date;
+}
+
+
 

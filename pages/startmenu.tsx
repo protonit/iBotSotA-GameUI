@@ -19,7 +19,7 @@ import { Button } from '@material-ui/core';
 import {red} from '@material-ui/core/colors';
 import common from '../common/commonImports';
 import { SettingsDialog  } from '../components/settings/settingsDialog';
-import {SettingsData} from "../components/settings/InterfaceGen";
+import {SettingsData} from "../components/interface/InterfaceGen";
 import {type} from "os";
 
 function SetupCallFunctions() {
