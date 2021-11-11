@@ -15,10 +15,10 @@ import {UIData, CharData, MatchData} from "../components/interface/InterfaceGen"
 
 const Home: NextPage = () => {
     let hudRef:any = <HudUI uiData={new UIData([
-        new CharData("n1", 0),
-        new CharData("n2", 0),
-        new CharData("n3", 0),
-        new CharData("n4", 0)
+        new CharData("n1", 0.1),
+        new CharData("n2", 0.22),
+        new CharData("n3", 0.333),
+        new CharData("n4", 0.4444)
     ], new MatchData(0, 0, new Date()))} />;
     useEffect(() => {
         let wndAny:any = global.window;
@@ -34,10 +34,10 @@ function callout() {
         var rootElement = document.getElementById('__next');
         console.log(rootElement);
         var uiData = new UIData([
-            new CharData("n1", 0),
-            new CharData("n2", 0),
-            new CharData("n3", 0),
-            new CharData("n4", 0)
+            new CharData("n1", 11.1),
+            new CharData("n2", 22.22),
+            new CharData("n3", 33.333),
+            new CharData("n4", 44.4444)
         ], new MatchData(0, 0, new Date()));
         uiData.MatchData.ChamberCount = 12;
         uiData.MatchData.CurrentChamber = 4;
@@ -119,7 +119,7 @@ class PercentageBar extends React.Component<{ readonly percentage:number, readon
         return (
               <Progress
                   type="circle"
-                  percent={this.props.percentage * 100}
+                  percent={this.props.percentage}
                   width={this.props.width}
                   strokeWidth={50}
                   symbolClassName={hudStyles.percentageBar}
@@ -161,7 +161,7 @@ class CharInfo extends React.Component<{readonly cardPosStyle:any, readonly Char
     render() {
         const charData = this.props.CharData;
         return (
-            <div style={this.props.cardPosStyle} className={hudStyles.charInfo}><PercentageBar width={87} percentage={charData.HealthPct}/><br/>{charData.Name}</div>
+            <div style={this.props.cardPosStyle} className={hudStyles.charInfo}><PercentageBar width={87} percentage={Math.round(charData.HealthPct * 100)}/><br/>{charData.Name}</div>
         );
     }
 }
