@@ -11,9 +11,15 @@ import "react-sweet-progress/lib/style.css";
 import moment from 'moment';
 import {any} from 'prop-types';
 import { useEffect } from 'react';
+import {UIData, CharData, MatchData} from "../components/interface/InterfaceGen";
 
 const Home: NextPage = () => {
-    let hudRef:any = <HudUI uiData={new UIData()} />;
+    let hudRef:any = <HudUI uiData={new UIData([
+        new CharData("n1", 0.1),
+        new CharData("n2", 0.22),
+        new CharData("n3", 0.333),
+        new CharData("n4", 0.4444)
+    ], new MatchData(0, 0, new Date()))} />;
     useEffect(() => {
         let wndAny:any = global.window;
         wndAny.UpdateUI = function (uiData:UIData) {
@@ -27,7 +33,12 @@ function callout() {
     if(typeof window !== 'undefined') {
         var rootElement = document.getElementById('__next');
         console.log(rootElement);
-        var uiData = new UIData();
+        var uiData = new UIData([
+            new CharData("n1", 11.1),
+            new CharData("n2", 22.22),
+            new CharData("n3", 33.333),
+            new CharData("n4", 44.4444)
+        ], new MatchData(0, 0, new Date()));
         uiData.MatchData.ChamberCount = 12;
         uiData.MatchData.CurrentChamber = 4;
         let wndAny:any = global.window;
@@ -108,7 +119,7 @@ class PercentageBar extends React.Component<{ readonly percentage:number, readon
         return (
               <Progress
                   type="circle"
-                  percent={this.props.percentage * 100}
+                  percent={this.props.percentage}
                   width={this.props.width}
                   strokeWidth={50}
                   symbolClassName={hudStyles.percentageBar}
@@ -150,7 +161,7 @@ class CharInfo extends React.Component<{readonly cardPosStyle:any, readonly Char
     render() {
         const charData = this.props.CharData;
         return (
-            <div style={this.props.cardPosStyle} className={hudStyles.charInfo}><PercentageBar width={87} percentage={charData.Health}/><br/>{charData.Name}</div>
+            <div style={this.props.cardPosStyle} className={hudStyles.charInfo}><PercentageBar width={87} percentage={Math.round(charData.HealthPct * 100)}/><br/>{charData.Name}</div>
         );
     }
 }
@@ -181,6 +192,7 @@ class BottomInfo extends React.Component<{readonly cardPosStyle:any}> {
     }
 }
 
+/*
 class UIData {
     public CharDatas: Array<CharData> = [
         {Name: "Kalmox", Health: 0.7},
@@ -205,5 +217,18 @@ class MatchData {
     public ChamberCount:number = 0;
     public MatchTime:Date = new Date();
 }
+*/
+
+/*
+function InitializeUIData():UIData {
+    let charDatas:Array<CharData> = [
+        new CharData("n1", 0),
+        new CharData("n2", 0),
+        new CharData("n3", 0),
+        new CharData("n4", 0)
+    ];
+    return new UIData(charDatas, new MatchData(0, 0, new Date()))
+}
+*/
 
 export default Home

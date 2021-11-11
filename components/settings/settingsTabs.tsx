@@ -6,7 +6,7 @@ import {VolumeUp} from "@material-ui/icons";
 import PropTypes from "prop-types";
 import {SettingsDialog} from "./settingsDialog";
 import _ from "lodash";
-import {AudioSettingsTab, ControlSettingsTab, VideoSettingsTab} from "./InterfaceGen";
+import {AudioSettingsTab, ControlSettingsTab, VideoSettingsTab} from "../interface/InterfaceGen";
 
 export function TabPanel(props:any) {
     const { children, value, index, ...other } = props;

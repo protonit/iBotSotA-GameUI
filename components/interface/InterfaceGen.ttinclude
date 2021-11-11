@@ -18,8 +18,22 @@
         }
         
         public List<Tab> tabs = new List<Tab>();
+        public List<DataClass> dataClasses = new List<DataClass>();
+        public List<UI> uiDatas = new List<UI>();
     }
 
+    public class UI
+    {
+        public string uiName;
+        public List<UIData> data = new List<UIData>();
+    }
+
+    public class UIData
+    {
+        public string name;
+        public string type;
+    }
+    
     public class Tab
     {
         public string tabName;
@@ -39,6 +53,18 @@
         public DateTime? DateTimeValue;
     }
 
+    public class DataClass
+    {
+        public string className;
+        public List<DataClassData> data = new List<DataClassData>();
+    }
+    
+    public class DataClassData
+    {
+        public string name;
+        public string type;
+    }
+    
     /*
       "tabName": "video",
       "data": [

@@ -15,6 +15,7 @@
 #>
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 
 public partial class SettingData 
@@ -35,7 +36,10 @@ public partial class SettingData
     foreach (var tab in jsonData.tabs)
     {
         var className = GetSettingClassName(tab.tabName);
+        var debuggerDisplay = tab.data.Select(item => $"{item.name}: {{{item.name}}}").ToArray();
+        var debuggerDistplayStr = String.Join(" ", debuggerDisplay);
 #>
+[DebuggerDisplay("<#= debuggerDistplayStr #>")]
 public partial class <#= className #> 
 {
 <#
@@ -55,23 +59,55 @@ public partial class <#= className #>
 
 #>
 
+// UI Classes
+
+<#
+    foreach (var ui in jsonData.uiDatas)
+    {
+        var className = ui.uiName;
+        var propertyItems = ui.data.Select(item => $"\tpublic {GetCSharpDataType(item.type)} {item.name};").ToArray();
+        var propsStr = String.Join(Environment.NewLine, propertyItems);
+
+#>
+
+public class <#= className #>
+{
+<#= propsStr #>
+}
+
+<#
+    }
+#>
+
+<#
+    foreach (var dataClass in jsonData.dataClasses)
+    {
+        var className = dataClass.className;
+        var propertyItems = dataClass.data.Select(item => $"\tpublic {GetCSharpDataType(item.type)} {item.name};").ToArray();
+        var propsStr = String.Join(Environment.NewLine, propertyItems);
+#>
+
+public class <#= className #>
+{
+<#= propsStr #>
+}
+<#
+    }
+#>
 
 <#+
-    string GetCSharpDataType(string jsDataType)
+    string GetCSharpDataType(string type)
     {
-        switch (jsDataType)
+        switch (type)
         {
-            case "number":
-                return "double";
-            case "string":
-                return "string";
             case "Date":
+            case "datetime":
                 return "DateTime";
             default:
-                return jsDataType;
+                return type;
         }
     }
-
+    
     string GetSettingClassName(string tabName)
     {
         return tabName + "Settings";
