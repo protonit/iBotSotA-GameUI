@@ -98,7 +98,8 @@
 
 .percentageBar {
     font-size: xx-large;
-    font-family: Expletus Sans;
+    /*font-family: Expletus Sans;*/
+    font-family: monospace;
     font-weight: bolder !important;
     color: greenyellow !important;
 }
