@@ -52,5 +52,9 @@ public class MatchData
 	public int ChamberCount;
 	public DateTime ChamberTime;
 	public DateTime MatchTime;
+	public double ChamberAccuracy;
+	public double MatchAccuracy;
+	public double ChamberHSAccuracy;
+	public double MatchHSAccuracy;
 }
 
