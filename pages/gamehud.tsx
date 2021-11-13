@@ -19,7 +19,7 @@ const Home: NextPage = () => {
         new CharData("n2", 0.22),
         new CharData("n3", 0.333),
         new CharData("n4", 0.4444)
-    ], new MatchData(0, 0, new Date()))} />;
+    ], new MatchData(0, 0, new Date(), new Date()))} />;
     useEffect(() => {
         let wndAny:any = global.window;
         wndAny.UpdateUI = function (uiData:UIData) {
@@ -38,7 +38,7 @@ function callout() {
             new CharData("n2", 22.22),
             new CharData("n3", 33.333),
             new CharData("n4", 44.4444)
-        ], new MatchData(0, 0, new Date()));
+        ], new MatchData(0, 0, new Date(),new Date()));
         uiData.MatchData.ChamberCount = 12;
         uiData.MatchData.CurrentChamber = 4;
         let wndAny:any = global.window;
@@ -173,9 +173,10 @@ class MatchInfo extends React.Component<{readonly cardPosStyle:any, readonly mat
 
     render() {
         const md = this.props.matchData;
-        const formattedTime = (moment(md.MatchTime)).format("mm:ss");
+        const formattedChamberTime = (moment(md.ChamberTime)).format("mm:ss");
+        const formattedMatchTime = (moment(md.MatchTime)).format("mm:ss");
         return (
-          <div style={this.props.cardPosStyle} className={hudStyles.matchInfo}>Chamber {md.CurrentChamber} / {md.ChamberCount}<br/>{formattedTime} / {formattedTime}</div>
+          <div style={this.props.cardPosStyle} className={hudStyles.matchInfo}>Chamber {md.CurrentChamber} / {md.ChamberCount}<br/>{formattedChamberTime} / {formattedMatchTime}</div>
         );
     }
 }

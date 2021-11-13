@@ -50,6 +50,7 @@ public class MatchData
 {
 	public int CurrentChamber;
 	public int ChamberCount;
+	public DateTime ChamberTime;
 	public DateTime MatchTime;
 }
 

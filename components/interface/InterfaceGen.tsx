@@ -119,10 +119,11 @@ export class CharData {
 
 
 export class MatchData {
-    constructor(public CurrentChamber:number, public ChamberCount:number, public MatchTime:Date) {
+    constructor(public CurrentChamber:number, public ChamberCount:number, public ChamberTime:Date, public MatchTime:Date) {
     }
     // public CurrentChamber : number;
     // public ChamberCount : number;
+    // public ChamberTime : Date;
     // public MatchTime : Date;
 }
 

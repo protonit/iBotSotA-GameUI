@@ -93,6 +93,10 @@
           "type": "int"
         },
         {
+          "name": "ChamberTime",
+          "type": "datetime"
+        },
+        {
           "name": "MatchTime",
           "type": "datetime"
         }
