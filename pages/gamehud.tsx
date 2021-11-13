@@ -65,7 +65,7 @@ class HudUI extends React.Component<{ readonly uiData:UIData}> {
         ];
         const bottomPosStyleArr = [
             {
-                width: "33.3%"
+                width: "33.3%",
             },
             {
                 left: "33.3%",
@@ -95,10 +95,10 @@ class HudUI extends React.Component<{ readonly uiData:UIData}> {
                                 const posStyle = charPosLeftArr[i];
                                 const charData = this.props.uiData.CharDatas[i];
                                 if(charData.Name)
-                                    return <CharInfo key={i} cardPosStyle={{left: posStyle}} CharData={charData}/>;
+                                    return <CharInfo key={i} cardPosStyle={{left: posStyle }} CharData={charData}/>;
                             })
                         }
-                        <MatchInfo cardPosStyle={{left: "40%"}} matchData={this.props.uiData.MatchData} />
+                        <MatchInfo cardPosStyle={{left: "40%" }} matchData={this.props.uiData.MatchData} />
                     </div>
                     <div className={hudStyles.gameArea}></div>
                     <div className={hudStyles.bottomRow}>
