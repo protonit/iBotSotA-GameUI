@@ -88,7 +88,8 @@
     height: 100%;
     text-align: center;
     font-size: xx-large;
-    font-family: Expletus Sans;
+    /*font-family: Expletus Sans;*/
+    font-family: monospace;
     font-weight: bolder;
 }
 
@@ -97,7 +98,8 @@
 
 .percentageBar {
     font-size: xx-large;
-    font-family: Expletus Sans;
+    /*font-family: Expletus Sans;*/
+    font-family: monospace;
     font-weight: bolder !important;
     color: greenyellow !important;
 }
@@ -113,7 +115,8 @@
     height: 100%;
     text-align: center;
     font-size: xx-large;
-    font-family: Expletus Sans;
+    /*font-family: Expletus Sans;*/
+    font-family: monospace;
     font-weight: bolder;
 }
 
@@ -125,7 +128,8 @@
     height: 100%;
     text-align: right;
     font-size: xx-large;
-    font-family: Expletus Sans;
+    /*font-family: Expletus Sans;*/
+    font-family: monospace;
     font-weight: bolder;
 }
 

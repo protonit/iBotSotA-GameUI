@@ -19,7 +19,7 @@ const Home: NextPage = () => {
         new CharData("n2", 0.22),
         new CharData("n3", 0.333),
         new CharData("n4", 0.4444)
-    ], new MatchData(0, 0, new Date()))} />;
+    ], new MatchData(0, 0, new Date(), new Date(), 0, 0, 0 ,0))} />;
     useEffect(() => {
         let wndAny:any = global.window;
         wndAny.UpdateUI = function (uiData:UIData) {
@@ -38,7 +38,7 @@ function callout() {
             new CharData("n2", 22.22),
             new CharData("n3", 33.333),
             new CharData("n4", 44.4444)
-        ], new MatchData(0, 0, new Date()));
+        ], new MatchData(0, 0, new Date(),new Date(), 0, 0, 0, 0));
         uiData.MatchData.ChamberCount = 12;
         uiData.MatchData.CurrentChamber = 4;
         let wndAny:any = global.window;
@@ -65,7 +65,7 @@ class HudUI extends React.Component<{ readonly uiData:UIData}> {
         ];
         const bottomPosStyleArr = [
             {
-                width: "33.3%"
+                width: "33.3%",
             },
             {
                 left: "33.3%",
@@ -77,6 +77,12 @@ class HudUI extends React.Component<{ readonly uiData:UIData}> {
             },
 
         ];
+        let uiData = this.props.uiData;
+        let matchData = uiData.MatchData;
+        let matchAccuracy = Math.round(matchData.MatchAccuracy * 10) / 10;
+        let matchHSAccuracy = Math.round(matchData.MatchHSAccuracy * 10) / 10;
+        let chamberAccuracy = Math.round(matchData.ChamberAccuracy * 10) / 10;
+        let chamberHSAccuracy = Math.round(matchData.ChamberHSAccuracy * 10) / 10;
 
         return (
             <div className={hudStyles.container}>
@@ -95,14 +101,14 @@ class HudUI extends React.Component<{ readonly uiData:UIData}> {
                                 const posStyle = charPosLeftArr[i];
                                 const charData = this.props.uiData.CharDatas[i];
                                 if(charData.Name)
-                                    return <CharInfo key={i} cardPosStyle={{left: posStyle}} CharData={charData}/>;
+                                    return <CharInfo key={i} cardPosStyle={{left: posStyle }} CharData={charData}/>;
                             })
                         }
-                        <MatchInfo cardPosStyle={{left: "40%"}} matchData={this.props.uiData.MatchData} />
+                        <MatchInfo cardPosStyle={{left: "40%" }} matchData={this.props.uiData.MatchData} />
                     </div>
                     <div className={hudStyles.gameArea}></div>
                     <div className={hudStyles.bottomRow}>
-                        <BottomInfo cardPosStyle={bottomPosStyleArr[2]}>Chamber Acc: 35%<br/>Chamber HS: 15%<br/>Match Acc: 34%<br/>Match HS: 17%</BottomInfo>
+                        <BottomInfo cardPosStyle={bottomPosStyleArr[2]}>Chamber Acc: {chamberAccuracy}%<br/>Chamber HS: {chamberHSAccuracy}%<br/>Match Acc: {matchAccuracy}%<br/>Match HS: {matchHSAccuracy}%</BottomInfo>
                     </div>
                 </div>
             </div>
@@ -173,9 +179,10 @@ class MatchInfo extends React.Component<{readonly cardPosStyle:any, readonly mat
 
     render() {
         const md = this.props.matchData;
-        const formattedTime = (moment(md.MatchTime)).format("mm:ss");
+        const formattedChamberTime = (moment(md.ChamberTime)).format("mm:ss");
+        const formattedMatchTime = (moment(md.MatchTime)).format("mm:ss");
         return (
-          <div style={this.props.cardPosStyle} className={hudStyles.matchInfo}>Chamber {md.CurrentChamber} / {md.ChamberCount}<br/>{formattedTime} / {formattedTime}</div>
+          <div style={this.props.cardPosStyle} className={hudStyles.matchInfo}>Chamber {md.CurrentChamber} / {md.ChamberCount}<br/>{formattedChamberTime} / {formattedMatchTime}</div>
         );
     }
 }

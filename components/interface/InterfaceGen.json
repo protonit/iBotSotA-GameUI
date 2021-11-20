@@ -93,8 +93,28 @@
           "type": "int"
         },
         {
+          "name": "ChamberTime",
+          "type": "datetime"
+        },
+        {
           "name": "MatchTime",
           "type": "datetime"
+        },
+        {
+          "name": "ChamberAccuracy",
+          "type": "double"
+        },
+        {
+          "name": "MatchAccuracy",
+          "type": "double"
+        },
+        {
+          "name": "ChamberHSAccuracy",
+          "type": "double"
+        },
+        {
+          "name": "MatchHSAccuracy",
+          "type": "double"
         }
       ]
     }
