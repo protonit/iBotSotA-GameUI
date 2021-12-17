@@ -18,8 +18,10 @@ using System;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-public partial class SettingData 
+namespace UI 
 {
+    public partial class SettingData 
+    {
 <#
     foreach (var tab in jsonData.tabs)
     {
@@ -27,11 +29,11 @@ public partial class SettingData
         var className = GetSettingClassName(tabName);
         
 #>
-    public <#= className #> <#= tabName #> = new <#= className #>();
+        public <#= className #> <#= tabName #> = new <#= className #>();
 <#
     }
 #>
-}
+    }
 <#
     foreach (var tab in jsonData.tabs)
     {
@@ -39,9 +41,9 @@ public partial class SettingData
         var debuggerDisplay = tab.data.Select(item => $"{item.name}: {{{item.name}}}").ToArray();
         var debuggerDistplayStr = String.Join(" ", debuggerDisplay);
 #>
-[DebuggerDisplay("<#= debuggerDistplayStr #>")]
-public partial class <#= className #> 
-{
+    [DebuggerDisplay("<#= debuggerDistplayStr #>")]
+    public partial class <#= className #> 
+    {
 <#
         foreach (var tabItem in tab.data)
         {
@@ -49,17 +51,17 @@ public partial class <#= className #>
             var fieldType = GetCSharpDataType(jsType);
             var fieldName = tabItem.name;
 #>
-    public <#= fieldType #> <#= fieldName #>;
+        public <#= fieldType #> <#= fieldName #>;
 <#
         }
 #>
-}
+    }
 <#
     }
 
 #>
 
-// UI Classes
+    // UI Classes
 
 <#
     foreach (var ui in jsonData.uiDatas)
@@ -70,10 +72,10 @@ public partial class <#= className #>
 
 #>
 
-public class <#= className #>
-{
+    public class <#= className #>
+    {
 <#= propsStr #>
-}
+    }
 
 <#
     }
@@ -87,14 +89,14 @@ public class <#= className #>
         var propsStr = String.Join(Environment.NewLine, propertyItems);
 #>
 
-public class <#= className #>
-{
+    public class <#= className #>
+    {
 <#= propsStr #>
-}
+    }
 <#
     }
 #>
-
+}
 <#+
     string GetCSharpDataType(string type)
     {
