@@ -1,0 +1,118 @@
+﻿<#@ template language="C#" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ assembly name="System.Runtime.Serialization" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Runtime.Serialization.Json" #>
+<#@ include file="InterfaceGen.ttinclude" #>
+
+<#
+    var jsonData = JsonData.ReadJsonData();
+#>
+
+using System;
+using System.Diagnostics;
+using System.Collections.Generic;
+
+namespace UI 
+{
+    public partial class SettingData 
+    {
+<#
+    foreach (var tab in jsonData.tabs)
+    {
+        var tabName = tab.tabName;
+        var className = GetSettingClassName(tabName);
+        
+#>
+        public <#= className #> <#= tabName #> = new <#= className #>();
+<#
+    }
+#>
+    }
+<#
+    foreach (var tab in jsonData.tabs)
+    {
+        var className = GetSettingClassName(tab.tabName);
+        var debuggerDisplay = tab.data.Select(item => $"{item.name}: {{{item.name}}}").ToArray();
+        var debuggerDistplayStr = String.Join(" ", debuggerDisplay);
+#>
+    [DebuggerDisplay("<#= debuggerDistplayStr #>")]
+    public partial class <#= className #> 
+    {
+<#
+        foreach (var tabItem in tab.data)
+        {
+            var jsType = tabItem.type;
+            var fieldType = GetCSharpDataType(jsType);
+            var fieldName = tabItem.name;
+#>
+        public <#= fieldType #> <#= fieldName #>;
+<#
+        }
+#>
+    }
+<#
+    }
+
+#>
+
+    // UI Classes
+
+<#
+    foreach (var ui in jsonData.uiDatas)
+    {
+        var className = ui.uiName;
+        var propertyItems = ui.data.Select(item => $"\tpublic {GetCSharpDataType(item.type)} {item.name};").ToArray();
+        var propsStr = String.Join(Environment.NewLine, propertyItems);
+
+#>
+
+    public class <#= className #>
+    {
+<#= propsStr #>
+    }
+
+<#
+    }
+#>
+
+<#
+    foreach (var dataClass in jsonData.dataClasses)
+    {
+        var className = dataClass.className;
+        var propertyItems = dataClass.data.Select(item => $"\tpublic {GetCSharpDataType(item.type)} {item.name};").ToArray();
+        var propsStr = String.Join(Environment.NewLine, propertyItems);
+#>
+
+    public class <#= className #>
+    {
+<#= propsStr #>
+    }
+<#
+    }
+#>
+}
+<#+
+    string GetCSharpDataType(string type)
+    {
+        switch (type)
+        {
+            case "Date":
+            case "datetime":
+                return "DateTime";
+            default:
+                return type;
+        }
+    }
+    
+    string GetSettingClassName(string tabName)
+    {
+        return tabName + "Settings";
+    }
+#>
+
